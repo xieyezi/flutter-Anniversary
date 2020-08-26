@@ -20,34 +20,24 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
-  }
-
-  Future<Null> _playAnimation() async {
-    try {
-      if (toogle)
-        await _controller.forward().orCancel; //正向执行动画
-      else
-        await _controller.reverse().orCancel; //反向执行动画
-    } on TickerCanceled {
-      // the animation got canceled, probably because we were disposed
-    }
+    _controller = AnimationController(duration: Duration(milliseconds: 2000), vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     final double senceWidth = MediaQuery.of(context).size.width;
     return Stack(
+      alignment: Alignment.center,
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height,
-          // width: double.infinity,
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
             child: CachedNetworkImage(
               color: Colors.black.withOpacity(0.5),
-              imageUrl: 'https://cdn.xieyezi.com/daily1.jpg',
-              placeholder: (context, url) => CircularProgressIndicator(),
+              imageUrl:
+                  'https://images.unsplash.com/photo-1518050346340-aa2ec3bb424b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80',
+              placeholder: (context, url) => Text('loading...'),
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.fitHeight,
               colorBlendMode: BlendMode.colorBurn,
@@ -55,7 +45,13 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
             ),
           ),
         ),
-        _buildInfo(context, senceWidth)
+        _buildInfo(context, senceWidth),
+        Positioned(
+          bottom: 50,
+          child: Container(
+            child: Icon(Iconfont.up, color: Colors.white),
+          ),
+        )
       ],
     );
   }
@@ -89,10 +85,8 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              _playAnimation();
-              setState(() {
-                toogle = !toogle;
-              });
+              toogle ? _controller.forward() : _controller.reverse();
+              toogle = !toogle;
             },
             child: Container(
               margin: EdgeInsets.only(top: 20),
@@ -103,10 +97,6 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 40),
-            child: Icon(Iconfont.up, color: Colors.white),
-          )
         ],
       ),
     );

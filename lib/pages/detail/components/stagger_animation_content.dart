@@ -7,11 +7,10 @@ class StaggerAnimation extends StatelessWidget {
   final Widget animationYear;
   final Widget animationDay;
   Animation<double> height;
-  Animation<double> top1;
-  Animation<double> top2;
+  Animation<double> top;
 
   StaggerAnimation({Key key, this.controller, this.animationYear, this.animationDay}) : super(key: key) {
-    top1 = Tween<double>(
+    top = Tween<double>(
       begin: 0,
       end: 100,
     ).animate(
@@ -19,19 +18,7 @@ class StaggerAnimation extends StatelessWidget {
         parent: controller,
         curve: Interval(
           0.0, 0.3, //间隔，
-          curve: Curves.ease,
-        ),
-      ),
-    );
-    top2 = Tween<double>(
-      begin: 100,
-      end: 0,
-    ).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Interval(
-          0.0, 0.3, //间隔，
-          curve: Curves.ease,
+          curve: Curves.easeIn,
         ),
       ),
     );
@@ -45,14 +32,14 @@ class StaggerAnimation extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: top1.value,
+            top: -top.value,
             child: Container(
               width: senceWidth * 0.5,
               child: animationYear,
             ),
           ),
           Positioned(
-            top: top2.value,
+            top: -top.value + 100,
             child: Container(
               width: senceWidth * 0.5,
               child: animationDay,
