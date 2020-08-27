@@ -1,9 +1,52 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/styles/iconfont.dart';
+import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
-class HeroDetailPage extends StatelessWidget {
+class HeroDetailPage extends StatefulWidget {
+  @override
+  _HeroDetailPageState createState() => _HeroDetailPageState();
+}
+
+class _HeroDetailPageState extends State<HeroDetailPage> {
+  Timer _timer;
+  bool _toogle = true;
+  int _countdownTime = 2;
+
+  @override
+  void initState() {
+    startCountdownTimer();
+    super.initState();
+  }
+
+  // 每隔2s切换Widget
+  void startCountdownTimer() {
+    const oneSec = Duration(seconds: 1);
+    var callback = (timer) => {
+          setState(() {
+            if (_countdownTime < 1) {
+              _toogle = !_toogle;
+              _countdownTime = 2;
+            } else {
+              _countdownTime = _countdownTime - 1;
+            }
+          })
+        };
+
+    _timer = Timer.periodic(oneSec, callback);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Daliy daliy = ModalRoute.of(context).settings.arguments;
@@ -18,7 +61,7 @@ class HeroDetailPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Hero(
-                  tag: 'hero${daliy.title}',
+                  tag: 'hero${daliy.id}',
                   child: Container(
                     height: 400,
                     child: Stack(
@@ -64,37 +107,22 @@ class HeroDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              daliy.headText,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                decoration: TextDecoration.none,
+            Text(daliy.headText, style: AppTextStyles.headTextStyle),
+            Text(daliy.title, style: AppTextStyles.titleTextStyle),
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: _toogle
+                    ? _buildMiddleYear(daliy, senceWidth: MediaQuery.of(context).size.width)
+                    : _buildMiddleCountDay(daliy, senceWidth: MediaQuery.of(context).size.width),
               ),
             ),
-            Text(
-              daliy.title,
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white,
-                decoration: TextDecoration.none,
-              ),
-            ),
-            _buildMiddleYear(senceWidth: MediaQuery.of(context).size.width),
-            // _buildMiddleDay(senceWidth: MediaQuery.of(context).size.width),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Icon(Iconfont.daily, color: Colors.white, size: 14),
                 SizedBox(width: 4),
-                Text(
-                  daliy.targetDay,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
+                Text(daliy.targetDay, style: AppTextStyles.targetDayStyle),
               ],
             )
           ],
@@ -104,73 +132,62 @@ class HeroDetailPage extends StatelessWidget {
   }
 
   ///  年月日
-  Widget _buildMiddleYear({double senceWidth}) {
-    TextStyle bottomTitle =
-        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    TextStyle bottomDay =
-        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-
-    return Expanded(
-      child: Center(
-        child: Container(
-          width: (senceWidth - 36) * 0.6,
-          padding: EdgeInsets.only(bottom: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text('28', style: bottomTitle),
-                        Text('Year', style: bottomDay),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('11', style: bottomTitle),
-                        Text('Month', style: bottomDay),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('28', style: bottomTitle),
-                        Text('Day', style: bottomDay),
-                      ],
-                    ),
-                  ],
-                ),
+  Widget _buildMiddleYear(Daliy daliy, {double senceWidth}) {
+    return Center(
+      key: ValueKey('year'),
+      child: Container(
+        width: (senceWidth - 36) * 0.6,
+        padding: EdgeInsets.only(bottom: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(daliy.countYear, style: AppTextStyles.countTitleStyle),
+                      Text('Year', style: AppTextStyles.countBottomTipStyle),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(daliy.countMonth, style: AppTextStyles.countTitleStyle),
+                      Text('Month', style: AppTextStyles.countBottomTipStyle),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(daliy.countDay, style: AppTextStyles.countTitleStyle),
+                      Text('Day', style: AppTextStyles.countBottomTipStyle),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  /// 天
-  Widget _buildMiddleDay({double senceWidth}) {
-    TextStyle bottomTitle =
-        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    TextStyle bottomDay =
-        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    return Expanded(
-      child: Center(
-        child: Container(
-          width: (senceWidth - 36) * 0.6,
-          padding: EdgeInsets.only(bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('296', style: bottomTitle),
-              SizedBox(width: 2),
-              Text('天', style: bottomDay),
-              Icon(Iconfont.up2, color: Colors.white, size: 14),
-            ],
-          ),
+  /// 距离目标日的总天数
+  Widget _buildMiddleCountDay(Daliy daliy, {double senceWidth}) {
+    return Center(
+      key: ValueKey('day'),
+      child: Container(
+        width: (senceWidth - 36) * 0.6,
+        padding: EdgeInsets.only(bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(daliy.countTotalDay, style: AppTextStyles.countTitleStyle),
+            SizedBox(width: 2),
+            Text('天', style: AppTextStyles.countBottomTipStyle),
+            Icon(Iconfont.up2, color: Colors.white, size: 14),
+          ],
         ),
       ),
     );
@@ -181,7 +198,7 @@ class HeroDetailPage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: Text(
-        daliy.content,
+        daliy.remark,
         style: TextStyle(
           fontSize: 16,
         ),

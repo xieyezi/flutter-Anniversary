@@ -1,9 +1,25 @@
 class Daliy {
-  String headText;
+  String id;
   String title;
+  String headText;
   String targetDay;
   String imageUrl;
-  String content;
+  String remark;
+  String countYear;
+  String countMonth;
+  String countDay;
+  String countTotalDay;
 
-  Daliy(this.title, this.headText, this.targetDay, this.imageUrl, this.content);
+  Daliy({
+    this.id,
+    this.title,
+    this.headText,
+    this.targetDay,
+    this.imageUrl,
+    this.remark,
+    this.countYear,
+    this.countMonth,
+    this.countDay,
+    this.countTotalDay,
+  });
 }
