@@ -15,12 +15,20 @@ class Iconfont {
     matchTextDirection: true,
   );
 
-  // iconName: up
-  static const up = IconData(
+  // iconName: up1
+  static const up1 = IconData(
     0xe696,
     fontFamily: 'Iconfont',
     matchTextDirection: true,
   );
+
+  // iconName: up2
+  static const up2 = IconData(
+    0xe603,
+    fontFamily: 'Iconfont',
+    matchTextDirection: true,
+  );
+
   // iconName: down1
   static const down1 = IconData(
     0xe687,

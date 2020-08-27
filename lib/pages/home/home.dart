@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/model/daily.dart';
-import 'package:daily/pages/detail/detail2.dart';
+import 'package:daily/pages/detail/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -47,52 +47,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        body: SafeArea(
-          bottom: false,
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '那些一去不返的日子，都值得纪念',
-                              style: TextStyle(
-                                fontSize: 12,
-                                decoration: TextDecoration.none,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Text(
-                                '珍藏',
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 30,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ClipOval(
-                        child: Image.network(
-                          'https://img2.woyaogexing.com/2019/05/23/e676568c6c684b04ab828a568c76f32b!400x400.jpeg',
-                          width: 50,
-                          height: 50,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                buildTop(),
                 createListView(),
               ],
             ),
@@ -102,14 +63,65 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
+  /// 顶部
+  Widget buildTop() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  child: Text(
+                    'Daily',
+                    style: TextStyle(
+                        decoration: TextDecoration.none,
+                        fontSize: 30,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Conspired'),
+                  ),
+                ),
+                Text(
+                  '那些一去不返的日子，都值得纪念',
+                  style: TextStyle(
+                    fontSize: 12,
+                    decoration: TextDecoration.none,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ClipOval(
+            child: Image.network(
+              'https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  /// 列表
   Widget createListView() {
-    return ListView.builder(
-      itemCount: _daliyList.length,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return createItemView(index);
-      },
+    return MediaQuery.removePadding(
+      removeTop: true,
+      context: context,
+      child: ListView.builder(
+        itemCount: _daliyList.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return createItemView(index);
+        },
+      ),
     );
   }
 
@@ -122,23 +134,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     var _animation = Tween<double>(begin: 1, end: 0.98).animate(_animationController);
     return GestureDetector(
       onPanDown: (details) {
-        print('onPanDown');
         _animationController.forward();
       },
       onPanCancel: () {
-        print('onPanCancel');
         _animationController.reverse();
       },
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) {
-                return HeroDetailPage();
-              },
-              fullscreenDialog: true,
-              settings: RouteSettings(arguments: daliy)),
+            builder: (context) {
+              return HeroDetailPage();
+            },
+            fullscreenDialog: true,
+            settings: RouteSettings(arguments: daliy),
+          ),
         );
-        print('onTap');
       },
       child: Container(
           height: 400,
@@ -155,13 +165,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: daliy.imageUrl,
+                        filterQuality: FilterQuality.high,
+                        color: Colors.black.withOpacity(0.2),
+                        colorBlendMode: BlendMode.colorBurn,
                         placeholder: (context, url) => Text('loading...'),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(18.0),
+                    padding: EdgeInsets.all(18),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -169,7 +182,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           daliy.headText,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey,
+                            color: Colors.white,
                             decoration: TextDecoration.none,
                           ),
                         ),
@@ -184,10 +197,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           ),
                         ),
                         Text(
-                          daliy.footerText,
+                          daliy.targetDay,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey,
+                            color: Colors.white,
                             decoration: TextDecoration.none,
                           ),
                         ),

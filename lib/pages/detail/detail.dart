@@ -1,188 +1,191 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily/model/daily.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:flutter/material.dart';
 
-import 'components/stagger_animation_content.dart';
-
-class Detail extends StatefulWidget {
-  const Detail({Key key}) : super(key: key);
-
-  @override
-  _DetailState createState() => _DetailState();
-}
-
-class _DetailState extends State<Detail> with TickerProviderStateMixin {
-  AnimationController _controller;
-  bool toogle = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(duration: Duration(milliseconds: 2000), vsync: this);
-  }
-
+class HeroDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double senceWidth = MediaQuery.of(context).size.width;
-    return Hero(
-      tag: 'detail',
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            child: CachedNetworkImage(
-              color: Colors.black.withOpacity(0.5),
-              imageUrl: 'https://cdn.xieyezi.com/daily3.jpg',
-              placeholder: (context, url) => Text('loading...'),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              fit: BoxFit.fitHeight,
-              colorBlendMode: BlendMode.colorBurn,
-              filterQuality: FilterQuality.high,
+    Daliy daliy = ModalRoute.of(context).settings.arguments;
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Hero(
+                  tag: 'hero${daliy.title}',
+                  child: Container(
+                    height: 400,
+                    child: Stack(
+                      children: <Widget>[
+                        _buildTopBg(context, daliy),
+                        _buildTopContent(context, daliy),
+                      ],
+                    ),
+                  ),
+                ),
+                _buildBottomContent(daliy),
+              ],
             ),
           ),
-          _buildInfo(context, senceWidth),
-          Positioned(
-            bottom: 50,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                height: 100,
-                width: 100,
-                child: Icon(Iconfont.up, color: Colors.white),
-              ),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildInfo(BuildContext context, double senceWidth) {
-    TextStyle headIntro =
-        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    TextStyle title =
-        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    TextStyle day =
-        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: 16),
-            child: Text('恋爱纪念日', style: headIntro),
-          ),
-          _buildDivier(width: senceWidth * 0.5, height: 1.5, color: Colors.white),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text('我们在一起', style: title),
-          ),
-          _buildDivier(width: senceWidth * 0.5, height: 1.5, color: Colors.white),
-          Container(
-            padding: EdgeInsets.only(top: 10),
-            child: Text('2019-01-30', style: day),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () {
-              toogle ? _controller.forward() : _controller.reverse();
-              toogle = !toogle;
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: StaggerAnimation(
-                controller: _controller,
-                animationYear: _buildMiddleYear(senceWidth: senceWidth),
-                animationDay: _buildMiddleDay(senceWidth: senceWidth),
-              ),
-            ),
-          ),
-        ],
+  /// 顶部背景图
+  Widget _buildTopBg(BuildContext context, Daliy daliy) {
+    return Container(
+      height: 400,
+      width: MediaQuery.of(context).size.width,
+      child: CachedNetworkImage(
+        color: Colors.black.withOpacity(0.5),
+        imageUrl: daliy.imageUrl,
+        placeholder: (context, url) => Text('loading...'),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+        fit: BoxFit.cover,
+        colorBlendMode: BlendMode.colorBurn,
+        filterQuality: FilterQuality.high,
       ),
     );
   }
 
+  /// 顶部内容
+  Widget _buildTopContent(BuildContext context, Daliy daliy) {
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              daliy.headText,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                decoration: TextDecoration.none,
+              ),
+            ),
+            Text(
+              daliy.title,
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white,
+                decoration: TextDecoration.none,
+              ),
+            ),
+            _buildMiddleYear(senceWidth: MediaQuery.of(context).size.width),
+            // _buildMiddleDay(senceWidth: MediaQuery.of(context).size.width),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(Iconfont.daily, color: Colors.white, size: 14),
+                SizedBox(width: 4),
+                Text(
+                  daliy.targetDay,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///  年月日
   Widget _buildMiddleYear({double senceWidth}) {
     TextStyle bottomTitle =
         TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
     TextStyle bottomDay =
         TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    return Column(
-      children: <Widget>[
-        Container(
-          child: Icon(Iconfont.daily, color: Colors.white),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 20),
-          width: senceWidth * 0.5,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+    return Expanded(
+      child: Center(
+        child: Container(
+          width: (senceWidth - 36) * 0.6,
+          padding: EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Text('28', style: bottomTitle),
-                  Text('年', style: bottomDay),
-                ],
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text('28', style: bottomTitle),
+                        Text('Year', style: bottomDay),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text('11', style: bottomTitle),
+                        Text('Month', style: bottomDay),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text('28', style: bottomTitle),
+                        Text('Day', style: bottomDay),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              Column(
-                children: <Widget>[
-                  Text('11', style: bottomTitle),
-                  Text('月', style: bottomDay),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text('28', style: bottomTitle),
-                  Text('天', style: bottomDay),
-                ],
-              )
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 
+  /// 天
   Widget _buildMiddleDay({double senceWidth}) {
     TextStyle bottomTitle =
         TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
     TextStyle bottomDay =
         TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
-    return Column(
-      children: <Widget>[
-        Container(
-          child: Icon(Iconfont.clock, color: Colors.white),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 20),
-          width: senceWidth * 0.5,
-          child: Column(
+    return Expanded(
+      child: Center(
+        child: Container(
+          width: (senceWidth - 36) * 0.6,
+          padding: EdgeInsets.only(bottom: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('296', style: bottomTitle),
-                  Icon(Iconfont.down1, color: Colors.white, size: 14),
-                ],
-              ),
+              Text('296', style: bottomTitle),
+              SizedBox(width: 2),
               Text('天', style: bottomDay),
+              Icon(Iconfont.up2, color: Colors.white, size: 14),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildDivier({double width, double height, Color color}) {
-    return Container(height: height, width: width, color: color);
+  /// 底部内容
+  Widget _buildBottomContent(Daliy daliy) {
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Text(
+        daliy.content,
+        style: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+    );
   }
 }

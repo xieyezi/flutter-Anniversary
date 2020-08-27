@@ -24,3 +24,6 @@ flutter:
     - family: Iconfont
       fonts:
         - asset: assets/fonts/iconfont.ttf
+    - family: Conspired
+      fonts:
+        - asset: assets/fonts/conspired-lovers.woff.ttf
