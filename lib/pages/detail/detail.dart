@@ -26,17 +26,16 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final double senceWidth = MediaQuery.of(context).size.width;
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+    return Hero(
+      tag: 'detail',
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
             child: CachedNetworkImage(
               color: Colors.black.withOpacity(0.5),
-              imageUrl:
-                  'https://images.unsplash.com/photo-1518050346340-aa2ec3bb424b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80',
+              imageUrl: 'https://cdn.xieyezi.com/daily3.jpg',
               placeholder: (context, url) => Text('loading...'),
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.fitHeight,
@@ -44,22 +43,32 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
               filterQuality: FilterQuality.high,
             ),
           ),
-        ),
-        _buildInfo(context, senceWidth),
-        Positioned(
-          bottom: 50,
-          child: Container(
-            child: Icon(Iconfont.up, color: Colors.white),
-          ),
-        )
-      ],
+          _buildInfo(context, senceWidth),
+          Positioned(
+            bottom: 50,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                height: 100,
+                width: 100,
+                child: Icon(Iconfont.up, color: Colors.white),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
   Widget _buildInfo(BuildContext context, double senceWidth) {
-    TextStyle headIntro = TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500);
-    TextStyle title = TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500);
-    TextStyle day = TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500);
+    TextStyle headIntro =
+        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
+    TextStyle title =
+        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
+    TextStyle day =
+        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
 
     return Center(
       child: Column(
@@ -103,8 +112,10 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
   }
 
   Widget _buildMiddleYear({double senceWidth}) {
-    TextStyle bottomTitle = TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500);
-    TextStyle bottomDay = TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500);
+    TextStyle bottomTitle =
+        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
+    TextStyle bottomDay =
+        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
     return Column(
       children: <Widget>[
         Container(
@@ -142,8 +153,10 @@ class _DetailState extends State<Detail> with TickerProviderStateMixin {
   }
 
   Widget _buildMiddleDay({double senceWidth}) {
-    TextStyle bottomTitle = TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500);
-    TextStyle bottomDay = TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500);
+    TextStyle bottomTitle =
+        TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
+    TextStyle bottomDay =
+        TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500, decoration: TextDecoration.none);
     return Column(
       children: <Widget>[
         Container(
