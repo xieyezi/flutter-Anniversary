@@ -51,15 +51,16 @@ class AppTextStyles {
   static const TextStyle countBottomTipStyle = TextStyle(
     fontSize: 16,
     color: Colors.white,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w200,
     decoration: TextDecoration.none,
   );
 
   /// (Daily detail Content) BottomTip
   static const TextStyle contentStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w200,
-    letterSpacing: 1.1,
     height: 1.5,
+    fontSize: 16,
+    letterSpacing: 1.0,
+    color: Color(0xFF666666),
+    fontWeight: FontWeight.w200,
   );
 }

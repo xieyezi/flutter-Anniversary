@@ -122,8 +122,6 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Icon(Iconfont.daily, color: Colors.white, size: 14),
-                SizedBox(width: 4),
                 Text(daliy.targetDay, style: AppTextStyles.targetDayStyle),
               ],
             )
@@ -151,19 +149,19 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
                   Column(
                     children: <Widget>[
                       Text(daliy.countYear, style: AppTextStyles.countTitleStyle),
-                      Text('Year', style: AppTextStyles.countBottomTipStyle),
+                      Text('年', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
                   Column(
                     children: <Widget>[
                       Text(daliy.countMonth, style: AppTextStyles.countTitleStyle),
-                      Text('Month', style: AppTextStyles.countBottomTipStyle),
+                      Text('月', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
                   Column(
                     children: <Widget>[
                       Text(daliy.countDay, style: AppTextStyles.countTitleStyle),
-                      Text('Day', style: AppTextStyles.countBottomTipStyle),
+                      Text('日', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
                 ],

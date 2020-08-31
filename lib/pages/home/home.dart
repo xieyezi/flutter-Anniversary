@@ -74,7 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.grey,
+          backgroundColor: Color(0xFF666666),
           onPressed: () {},
           child: Icon(Icons.add),
         ),
@@ -109,7 +109,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   padding: EdgeInsets.only(top: 10, bottom: 15),
                   child: Text('Daily', style: AppTextStyles.appTitle),
                 ),
-                Text('那些一去不返的日子，都值得纪念', style: AppTextStyles.appTip),
+                Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
               ],
             ),
           ),
