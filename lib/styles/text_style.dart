@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  /// APP标题
+  /// APP Title
   static const TextStyle appTitle = TextStyle(
     decoration: TextDecoration.none,
     fontSize: 30,
@@ -11,7 +11,7 @@ class AppTextStyles {
     fontFamily: 'Conspired',
   );
 
-  /// APP 欢迎语
+  /// APP Welcome
   static const TextStyle appTip = TextStyle(
     fontSize: 12,
     decoration: TextDecoration.none,
@@ -53,5 +53,13 @@ class AppTextStyles {
     color: Colors.white,
     fontWeight: FontWeight.w400,
     decoration: TextDecoration.none,
+  );
+
+  /// (Daily detail Content) BottomTip
+  static const TextStyle contentStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w200,
+    letterSpacing: 1.1,
+    height: 1.5,
   );
 }

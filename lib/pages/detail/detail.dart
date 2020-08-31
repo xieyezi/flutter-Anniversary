@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/model/daily.dart';
+import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
         },
         child: Container(
           height: MediaQuery.of(context).size.height,
+          color: AppColors.detailBackGorundColor,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -195,14 +197,15 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
 
   /// 底部内容
   Widget _buildBottomContent(Daliy daliy) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Text(
-        daliy.remark,
-        style: TextStyle(
-          fontSize: 16,
-        ),
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
+      width: MediaQuery.of(context).size.width - 20,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
       ),
+      child: Text(daliy.remark, style: AppTextStyles.contentStyle),
     );
   }
 }

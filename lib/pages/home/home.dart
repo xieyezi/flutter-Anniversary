@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/detail/detail.dart';
+import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -72,8 +73,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.grey,
+          onPressed: () {},
+          child: Icon(Icons.add),
+        ),
         body: SingleChildScrollView(
           child: Container(
+            color: AppColors.homeBackGorundColor,
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +118,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               height: 50,
               width: 50,
               fit: BoxFit.cover,
-              placeholder: (context, url) => Text('loading...'),
+              // placeholder: (context, url) => Text('loading...'),
               errorWidget: (context, url, error) => Icon(Icons.error),
               imageUrl:
                   'https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
@@ -182,7 +189,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       filterQuality: FilterQuality.high,
                       color: Colors.black.withOpacity(0.2),
                       colorBlendMode: BlendMode.colorBurn,
-                      placeholder: (context, url) => Text('loading...'),
+                      // placeholder: (context, url) => Text('loading...'),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
