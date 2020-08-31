@@ -27,3 +27,6 @@ flutter:
     - family: Conspired
       fonts:
         - asset: assets/fonts/conspired-lovers.woff.ttf
+    - family: Dongqing
+      fonts:
+        - asset: assets/fonts/DongQingHeiTi.otf

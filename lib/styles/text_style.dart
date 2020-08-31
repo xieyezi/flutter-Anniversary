@@ -16,6 +16,7 @@ class AppTextStyles {
     fontSize: 12,
     decoration: TextDecoration.none,
     color: Colors.black54,
+    fontFamily: 'Dongqing',
   );
 
   /// Daily title
@@ -23,6 +24,7 @@ class AppTextStyles {
     fontSize: 30,
     color: Colors.white,
     decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
   );
 
   /// Daily headText
@@ -30,6 +32,7 @@ class AppTextStyles {
     fontSize: 16,
     color: Colors.white,
     decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
   );
 
   /// Daily targetDay
@@ -37,6 +40,7 @@ class AppTextStyles {
     fontSize: 16,
     color: Colors.white,
     decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
   );
 
   /// (Daily countYear countMonth countDay countTotalDay) Title
@@ -45,6 +49,7 @@ class AppTextStyles {
     color: Colors.white,
     fontWeight: FontWeight.w500,
     decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
   );
 
   /// (Daily countYear countMonth countDay countTotalDay) BottomTip
@@ -53,6 +58,7 @@ class AppTextStyles {
     color: Colors.white,
     fontWeight: FontWeight.w200,
     decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
   );
 
   /// (Daily detail Content) BottomTip
@@ -62,5 +68,6 @@ class AppTextStyles {
     letterSpacing: 1.0,
     color: Color(0xFF666666),
     fontWeight: FontWeight.w200,
+    fontFamily: 'Dongqing',
   );
 }

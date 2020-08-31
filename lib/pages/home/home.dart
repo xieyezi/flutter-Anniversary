@@ -98,7 +98,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   /// 顶部
   Widget buildTop() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25), 
       child: Row(
         children: <Widget>[
           Expanded(
