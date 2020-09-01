@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/model/daily.dart';
+import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     ),
     Daliy(
       id: '3',
-      title: '娇娇的生日',
+      title: '他的生日',
       headText: '爱你每一天',
       targetDay: '2020-09-21',
       countYear: '01',
@@ -74,8 +75,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF666666),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return AddNew();
+                },
+                fullscreenDialog: true,
+                settings: RouteSettings(arguments: ''),
+              ),
+            );
+          },
+          backgroundColor: Color(0xFF999999),
           child: Icon(Icons.add),
         ),
         body: SingleChildScrollView(
@@ -98,7 +109,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   /// 顶部
   Widget buildTop() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25), 
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       child: Row(
         children: <Widget>[
           Expanded(

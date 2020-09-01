@@ -70,4 +70,29 @@ class AppTextStyles {
     fontWeight: FontWeight.w200,
     fontFamily: 'Dongqing',
   );
+
+  /// (Daily add Input label) label
+  static const TextStyle inputLabelStyle = TextStyle(
+    fontSize: 16,
+    color: Color(0xFF333333),
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
+
+  /// (Daily add Input hint) hint
+  static const TextStyle inputHintStyle = TextStyle(
+    fontSize: 15,
+    color: Color(0xFF666666),
+    decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
+  );
+
+    /// (Daily add Input value) value
+  static const TextStyle inputValueStyle = TextStyle(
+    fontSize: 16,
+    color: Color(0xFF666666),
+    decoration: TextDecoration.none,
+    fontFamily: 'Dongqing',
+  );
 }
