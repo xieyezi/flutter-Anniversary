@@ -45,7 +45,12 @@ class _AddNewState extends State<AddNew> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         child: Container(
           height: MediaQuery.of(context).size.height,
           color: AppColors.homeBackGorundColor,
@@ -66,14 +71,16 @@ class _AddNewState extends State<AddNew> {
                           imageUrl:
                               'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
                           placeholder: (context, url) => Text('loading...'),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.colorBurn,
                           filterQuality: FilterQuality.high,
                         ),
                       ),
                       Center(
-                        child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
+                        child: Text('每个日子都值得纪念',
+                            style: AppTextStyles.headTextStyle),
                       )
                     ],
                   )),
@@ -102,6 +109,7 @@ class _AddNewState extends State<AddNew> {
                       _buildItemInput(label: '标题', placeHolder: '为纪念日写个标题吧~', controller: _titleController),
                       _buildItemInput(label: '描述', placeHolder: '我还没想好要写什么...', controller: _headTextController),
                       _buildContentTextFiled(controller: _contentController),
+                      _buildContentTextFiled(controller: _contentController),
                       // 登录按钮
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 30),
@@ -118,7 +126,7 @@ class _AddNewState extends State<AddNew> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   /// _buildSelcetItem
@@ -175,7 +183,9 @@ class _AddNewState extends State<AddNew> {
                   border: OutlineInputBorder(borderSide: BorderSide.none),
                   suffixIcon: GestureDetector(
                     onTap: () => _clearInput(controller),
-                    child: controller.text != '' ? Icon(Icons.cancel, size: 18) : SizedBox(),
+                    child: controller.text != ''
+                        ? Icon(Icons.cancel, size: 18)
+                        : SizedBox(),
                   ),
                 ),
                 cursorColor: AppColors.homeBackGorundColor,
