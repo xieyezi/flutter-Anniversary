@@ -13,6 +13,7 @@ class AddNew extends StatefulWidget {
 
 class _AddNewState extends State<AddNew> {
   String _targetDay = '';
+  DateTime targetDay;
   GlobalKey _formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _headTextController = TextEditingController();
@@ -20,6 +21,7 @@ class _AddNewState extends State<AddNew> {
 
   @override
   void initState() {
+    targetDay = DateTime.now();
     _titleController.addListener(() {
       setState(() {});
     });
@@ -95,7 +97,7 @@ class _AddNewState extends State<AddNew> {
                       _buildSelcetItem(
                         label: '日期',
                         value: _targetDay == '' ? '2019-01-31' : _targetDay,
-                        onTap: () => _seletDate(context),
+                        onTap: () => _seletDate(context, targetDay),
                       ),
                       _buildItemInput(label: '标题', placeHolder: '为纪念日写个标题吧~', controller: _titleController),
                       _buildItemInput(label: '描述', placeHolder: '我还没想好要写什么...', controller: _headTextController),
@@ -217,7 +219,7 @@ class _AddNewState extends State<AddNew> {
   }
 
   /// 选择日期弹窗
-  void _seletDate(BuildContext context) {
+  void _seletDate(BuildContext context, DateTime targetDay) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.white,
@@ -235,17 +237,25 @@ class _AddNewState extends State<AddNew> {
                   SizedBox(height: 16),
                   SfDateRangePicker(
                     backgroundColor: Colors.white,
+                    initialSelectedDate: targetDay,
                     onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                      final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                      print(formatter.format(args.value));
-                      setState(() {
-                        _targetDay = formatter.format(args.value);
-                      });
-                      Navigator.pop(context);
+                      _dateChange(args.value);
                     },
                   ),
                 ],
               ));
         });
+  }
+
+  /// date OnChange
+  void _dateChange(DateTime date) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    print(formatter.format(date));
+    setState(() {
+      targetDay = date;
+      print(targetDay);
+      _targetDay = formatter.format(date);
+    });
+    Navigator.pop(context);
   }
 }

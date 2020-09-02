@@ -8,9 +8,6 @@ class AppColors {
   /// Detail backGorundColor
   static const Color detailBackGorundColor = Color.fromRGBO(189, 195, 199, 0.06);
 
-  /// 分类tab渐变色
-  static Color buttonLine1 = Colors.black;
-
-  /// 分类tab渐变色
-  static const Color buttonLine2 = Colors.black;
+  /// Button
+  static Color buttonPrimary = Colors.black;
 }
