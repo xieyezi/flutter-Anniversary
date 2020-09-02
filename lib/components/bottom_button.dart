@@ -18,7 +18,7 @@ class BottomButton extends StatelessWidget {
         ),
         height: 60,
         decoration: BoxDecoration(
-          color:AppColors.buttonLine1,
+          color:AppColors.buttonPrimary,
           // gradient: LinearGradient(
           //   //背景径向渐变
           //   colors: [AppColors.buttonLine1, AppColors.buttonLine2],

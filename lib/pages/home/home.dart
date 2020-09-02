@@ -75,6 +75,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.buttonPrimary,
+          child: Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -86,8 +88,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               ),
             );
           },
-          backgroundColor: Color(0xFF999999),
-          child: Icon(Icons.add),
         ),
         body: SingleChildScrollView(
           child: Container(
