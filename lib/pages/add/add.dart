@@ -91,41 +91,12 @@ class _AddNewState extends State<AddNew> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      _buildSelcetItem(
-                          label: '日期',
-                          value: _targetDay == '' ? '2019-01-31' : _targetDay,
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.white,
-                                isScrollControlled: true,
-                                elevation: 10,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                builder: (BuildContext context) {
-                                  return Container(
-                                      height: MediaQuery.of(context).size.height * 0.55,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                                      child: Column(
-                                        children: <Widget>[
-                                          SizedBox(height: 16),
-                                          SfDateRangePicker(
-                                            backgroundColor: Colors.white,
-                                            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-                                              final DateFormat formatter = DateFormat('yyyy-MM-dd');
-                                              print(formatter.format(args.value));
-                                              setState(() {
-                                                _targetDay = formatter.format(args.value);
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ));
-                                });
-                          }),
                       _buildSelcetItem(label: '类别', value: '恋爱'),
+                      _buildSelcetItem(
+                        label: '日期',
+                        value: _targetDay == '' ? '2019-01-31' : _targetDay,
+                        onTap: () => _seletDate(context),
+                      ),
                       _buildItemInput(label: '标题', placeHolder: '为纪念日写个标题吧~', controller: _titleController),
                       _buildItemInput(label: '描述', placeHolder: '我还没想好要写什么...', controller: _headTextController),
                       _buildContentTextFiled(controller: _contentController),
@@ -149,7 +120,6 @@ class _AddNewState extends State<AddNew> {
   }
 
   /// _buildSelcetItem
-  ///
   Widget _buildSelcetItem({String label, String value, Function onTap}) {
     return Container(
       height: 60,
@@ -159,6 +129,7 @@ class _AddNewState extends State<AddNew> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: onTap,
             child: Container(
               width: MediaQuery.of(context).size.width - 60,
@@ -243,5 +214,38 @@ class _AddNewState extends State<AddNew> {
         ),
       ),
     );
+  }
+
+  /// 选择日期弹窗
+  void _seletDate(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        isScrollControlled: true,
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        builder: (BuildContext context) {
+          return Container(
+              height: MediaQuery.of(context).size.height * 0.55,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 16),
+                  SfDateRangePicker(
+                    backgroundColor: Colors.white,
+                    onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+                      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                      print(formatter.format(args.value));
+                      setState(() {
+                        _targetDay = formatter.format(args.value);
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ));
+        });
   }
 }
