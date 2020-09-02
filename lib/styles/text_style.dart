@@ -88,7 +88,7 @@ class AppTextStyles {
     fontFamily: 'Dongqing',
   );
 
-    /// (Daily add Input value) value
+  /// (Daily add Input value) value
   static const TextStyle inputValueStyle = TextStyle(
     fontSize: 16,
     color: Color(0xFF666666),

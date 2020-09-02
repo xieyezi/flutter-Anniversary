@@ -96,16 +96,14 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                           color: Colors.black.withOpacity(0.5),
                           imageUrl: _imgList[imgCurrentIndex].imgUrl,
                           placeholder: (context, url) => Text('loading...'),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
                           fit: BoxFit.cover,
                           colorBlendMode: BlendMode.colorBurn,
                           filterQuality: FilterQuality.high,
                         ),
                       ),
                       Center(
-                        child: Text('每个日子都值得纪念',
-                            style: AppTextStyles.headTextStyle),
+                        child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
                       )
                     ],
                   )),
@@ -221,9 +219,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                   border: OutlineInputBorder(borderSide: BorderSide.none),
                   suffixIcon: GestureDetector(
                     onTap: () => _clearInput(controller),
-                    child: controller.text != ''
-                        ? Icon(Icons.cancel, size: 18)
-                        : SizedBox(),
+                    child: controller.text != '' ? Icon(Icons.cancel, size: 18) : SizedBox(),
                   ),
                 ),
                 cursorColor: AppColors.homeBackGorundColor,
@@ -279,16 +275,14 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
         builder: (BuildContext context) {
           return Container(
               height: MediaQuery.of(context).size.height * 0.55,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(16)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 16),
                   SfDateRangePicker(
                     backgroundColor: Colors.white,
                     initialSelectedDate: targetDay,
-                    onSelectionChanged:
-                        (DateRangePickerSelectionChangedArgs args) {
+                    onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                       _dateChange(args.value);
                     },
                   ),
@@ -311,8 +305,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 200),
     );
-    var _animation =
-        Tween<double>(begin: 1, end: 0.98).animate(_animationController);
+    var _animation = Tween<double>(begin: 1, end: 0.98).animate(_animationController);
     showModalBottomSheet(
         context: context,
         elevation: 10,
@@ -325,8 +318,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
           return StatefulBuilder(builder: (_, setModalBottomSheetState) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.6,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(16)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Container(
                 padding: EdgeInsets.only(
                   top: 40,
@@ -350,8 +342,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                                 child: CachedNetworkImage(
                                   imageUrl: _imgList[index].imgUrl,
                                   fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                 ),
                               ),
                             );
@@ -368,6 +359,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                       ),
                     ),
                     Container(
+                      // TODO: 抽字体样式
                       margin: EdgeInsets.only(top: 30),
                       child: Text(
                         _imgList[imgCurrentIndex].name,
