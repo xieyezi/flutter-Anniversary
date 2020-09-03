@@ -266,7 +266,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   void _seletDate(BuildContext context, DateTime targetDay) {
     showModalBottomSheet(
         context: context,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[100],
         isScrollControlled: true,
         elevation: 10,
         shape: RoundedRectangleBorder(
@@ -280,8 +280,13 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                 children: <Widget>[
                   SizedBox(height: 16),
                   SfDateRangePicker(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.grey[100],
+                    selectionColor: Colors.black,
+                    todayHighlightColor: Colors.black,
                     initialSelectedDate: targetDay,
+                    initialDisplayDate: targetDay,
+                    monthCellStyle: DateRangePickerMonthCellStyle(todayTextStyle: AppTextStyles.dateSelectStyle),
+                    yearCellStyle: DateRangePickerYearCellStyle(todayTextStyle: AppTextStyles.dateSelectStyle),
                     onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
                       _dateChange(args.value);
                     },
@@ -310,18 +315,18 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
         context: context,
         elevation: 10,
         isScrollControlled: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[300],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (_, setModalBottomSheetState) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.65,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Container(
                 padding: EdgeInsets.only(
-                  top: 40,
+                  top: 30,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -337,13 +342,27 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                           itemBuilder: (BuildContext context, int index) {
                             return ScaleTransition(
                               scale: _animation,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: CachedNetworkImage(
-                                  imageUrl: _imgList[index].imgUrl,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                ),
+                              child: Stack(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: CachedNetworkImage(
+                                      imageUrl: _imgList[index].imgUrl,
+                                      fit: BoxFit.cover,
+                                      filterQuality: FilterQuality.high,
+                                      colorBlendMode: BlendMode.colorBurn,
+                                      color: Colors.black.withOpacity(0.3),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 30),
+                                      child:
+                                          Text(_imgList[imgCurrentIndex].name, style: AppTextStyles.cateGoryTextStyle),
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           },
@@ -359,20 +378,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                       ),
                     ),
                     Container(
-                      // TODO: 抽字体样式
-                      margin: EdgeInsets.only(top: 30),
-                      child: Text(
-                        _imgList[imgCurrentIndex].name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xFF666666),
-                          fontWeight: FontWeight.w200,
-                          fontFamily: 'Dongqing',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+                      margin: EdgeInsets.all(20),
                       child: BottomButton(
                         text: '确定',
                         height: 50,

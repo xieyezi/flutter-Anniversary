@@ -95,4 +95,19 @@ class AppTextStyles {
     decoration: TextDecoration.none,
     fontFamily: 'Dongqing',
   );
+
+  /// (Daily add Select cateGoryText) cateGoryText
+  static const TextStyle cateGoryTextStyle = TextStyle(
+    fontSize: 24,
+    color: Colors.white,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
+
+  /// (Daily add Select dateSelect) dateSelect
+  static const TextStyle dateSelectStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: Colors.black,
+  );
 }
