@@ -83,7 +83,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
           child: Stack(
             children: <Widget>[
               Container(
-                  color: Colors.black.withOpacity(0.5),
+                  color: AppColors.addBackGorundColor,
                   height: MediaQuery.of(context).size.height * 0.25,
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(bottom: 20),
@@ -116,7 +116,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                 ),
               ),
               Positioned.fill(
-                top: MediaQuery.of(context).size.height * 0.25 + 30,
+                top: MediaQuery.of(context).size.height * 0.25 + 20,
                 child: Form(
                   key: _formKey, //设置globalKey，用于后面获取FormState
                   autovalidate: false,
@@ -219,7 +219,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                   border: OutlineInputBorder(borderSide: BorderSide.none),
                   suffixIcon: GestureDetector(
                     onTap: () => _clearInput(controller),
-                    child: controller.text != '' ? Icon(Icons.cancel, size: 18) : SizedBox(),
+                    child: controller.text != '' ? Icon(Icons.cancel, size: 18, color: Colors.black) : SizedBox(),
                   ),
                 ),
                 cursorColor: AppColors.homeBackGorundColor,
@@ -266,7 +266,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   void _seletDate(BuildContext context, DateTime targetDay) {
     showModalBottomSheet(
         context: context,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: AppColors.dateSelectBackGorundColor,
         isScrollControlled: true,
         elevation: 10,
         shape: RoundedRectangleBorder(
@@ -280,11 +280,11 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                 children: <Widget>[
                   SizedBox(height: 16),
                   SfDateRangePicker(
-                    backgroundColor: Colors.grey[100],
-                    selectionColor: Colors.black,
-                    todayHighlightColor: Colors.black,
                     initialSelectedDate: targetDay,
                     initialDisplayDate: targetDay,
+                    backgroundColor: AppColors.dateSelectBackGorundColor,
+                    selectionColor: AppColors.dateSelectHlight,
+                    todayHighlightColor: AppColors.dateSelectHlight,
                     monthCellStyle: DateRangePickerMonthCellStyle(todayTextStyle: AppTextStyles.dateSelectStyle),
                     yearCellStyle: DateRangePickerYearCellStyle(todayTextStyle: AppTextStyles.dateSelectStyle),
                     onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
@@ -315,7 +315,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
         context: context,
         elevation: 10,
         isScrollControlled: true,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: AppColors.cateGroySelectBackGorundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

@@ -91,7 +91,7 @@ class AppTextStyles {
   /// (Daily add Input value) value
   static const TextStyle inputValueStyle = TextStyle(
     fontSize: 16,
-    color: Color(0xFF666666),
+    color: Color(0xFF333333),
     decoration: TextDecoration.none,
     fontFamily: 'Dongqing',
   );

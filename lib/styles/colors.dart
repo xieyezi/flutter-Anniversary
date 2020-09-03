@@ -10,4 +10,15 @@ class AppColors {
 
   /// Button
   static Color buttonPrimary = Colors.black;
+
+  /// Add backGorundColor
+  static const Color addBackGorundColor = Color.fromRGBO(189, 195, 199, 0.06);
+  /// DateSelect
+  static Color dateSelectBackGorundColor = Colors.grey[100];
+
+  /// dateSelectHlight
+  static Color dateSelectHlight = Colors.black;
+
+  /// cateGroySelect
+  static Color cateGroySelectBackGorundColor = Colors.grey[200];
 }
