@@ -346,10 +346,10 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                                 decoration: new BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
-                                      offset: Offset(0, 8),
+                                      offset: Offset(0, -5),
                                       color: Colors.grey,
-                                      blurRadius: 15,
-                                      spreadRadius: -10,
+                                      blurRadius: 30,
+                                      spreadRadius: -20,
                                     )
                                   ],
                                 ),
