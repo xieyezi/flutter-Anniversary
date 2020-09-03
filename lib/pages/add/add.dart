@@ -342,27 +342,39 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                           itemBuilder: (BuildContext context, int index) {
                             return ScaleTransition(
                               scale: _animation,
-                              child: Stack(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(6),
-                                    child: CachedNetworkImage(
-                                      imageUrl: _imgList[index].imgUrl,
-                                      fit: BoxFit.cover,
-                                      filterQuality: FilterQuality.high,
-                                      colorBlendMode: BlendMode.colorBurn,
-                                      color: Colors.black.withOpacity(0.3),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                              child: Container(
+                                decoration: new BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 8),
+                                      color: Colors.grey,
+                                      blurRadius: 15,
+                                      spreadRadius: -10,
+                                    )
+                                  ],
+                                ),
+                                child: Stack(
+                                  children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(6),
+                                      child: CachedNetworkImage(
+                                        imageUrl: _imgList[index].imgUrl,
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.high,
+                                        colorBlendMode: BlendMode.colorBurn,
+                                        color: Colors.black.withOpacity(0.3),
+                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                      ),
                                     ),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.only(top: 30),
-                                      child:
-                                          Text(_imgList[imgCurrentIndex].name, style: AppTextStyles.cateGoryTextStyle),
+                                    Center(
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 30),
+                                        child: Text(_imgList[imgCurrentIndex].name,
+                                            style: AppTextStyles.cateGoryTextStyle),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },
