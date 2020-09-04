@@ -16,51 +16,35 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   final List<Daliy> _daliyList = [
     Daliy(
-      id: '1',
+      id: 1,
       title: '我们在一起',
       headText: '第一次的相遇是最美的时刻',
       targetDay: '2019-01-31',
-      countYear: '01',
-      countMonth: '06',
-      countDay: '23',
-      countTotalDay: '574',
       imageUrl: ImgData.daily_love,
       remark: """每刻的相遇都是最美的时刻
 你是我生命中最善良的音符，我的生活因为你而精彩，愿美好的乐章谱满我们以后的每一个清晨与黄昏。""",
     ),
     Daliy(
-      id: '2',
+      id: 2,
       title: '第一次工作',
       headText: '努力赚钱钱哦',
-      targetDay: '2019-07-01',
-      countYear: '01',
-      countMonth: '06',
-      countDay: '23',
-      countTotalDay: '400',
+      targetDay: '2019-07-10',
       imageUrl: ImgData.daily_work,
       remark: """职场中，最重要的一件事：努力；最重要的两个字：我能；最重要的三宝：自信、诚实、微笑；最重要的四句话：你好、请问、谢谢、没问题。愿你第一天上班顺利，工作开心！""",
     ),
     Daliy(
-      id: '3',
+      id: 3,
       title: '她的生日',
       headText: '爱你每一天',
-      targetDay: '2020-09-21',
-      countYear: '01',
-      countMonth: '06',
-      countDay: '23',
-      countTotalDay: '146',
+      targetDay: '2020-08-21',
       imageUrl: ImgData.daily_birthday,
       remark: """一定不要忘记准备惊喜和礼物哦""",
     ),
     Daliy(
-      id: '4',
+      id: 4,
       title: '第一次买房',
       headText: '努力奋斗',
-      targetDay: '2020-09-21',
-      countYear: '01',
-      countMonth: '06',
-      countDay: '23',
-      countTotalDay: '9990',
+      targetDay: '2021-09-01',
       imageUrl: ImgData.daily_other,
       remark: """革命尚未成功，加油奋斗！！""",
     ),
@@ -172,10 +156,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return HeroDetailPage();
+              return HeroDetailPage(daliy: daliy);
             },
             fullscreenDialog: true,
-            settings: RouteSettings(arguments: daliy),
+            // settings: RouteSettings(arguments: daliy),
           ),
         );
       },
@@ -197,7 +181,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       filterQuality: FilterQuality.high,
                       color: Colors.black.withOpacity(0.2),
                       colorBlendMode: BlendMode.colorBurn,
-                      // placeholder: (context, url) => Text('loading...'),
+                      placeholder: (context, url) => Text('loading...'),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),

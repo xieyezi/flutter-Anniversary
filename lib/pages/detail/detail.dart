@@ -8,6 +8,8 @@ import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class HeroDetailPage extends StatefulWidget {
+  final Daliy daliy;
+  const HeroDetailPage({Key key, this.daliy}) : super(key: key);
   @override
   _HeroDetailPageState createState() => _HeroDetailPageState();
 }
@@ -16,11 +18,40 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
   Timer _timer;
   bool _toogle = true;
   int _countdownTime = 2;
+  String countYear = '';
+  String countMonth = '';
+  String countDay = '';
+  String countTotalDay = '';
 
   @override
   void initState() {
+    caclTimeDistance();
     startCountdownTimer();
     super.initState();
+  }
+
+  // 计算时间差
+  void caclTimeDistance() {
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    int total = 0;
+    final today = new DateTime.now();
+    final targetDay = DateTime.parse(widget.daliy.targetDay);
+    final difference = today.difference(targetDay);
+    total = difference.inDays;
+    year = total ~/ 365;
+    month = (total - year * 365) ~/ 30;
+    day = total - year * 365 - month * 30;
+    countTotalDay = formatNum(total);
+    countYear = formatNum(year);
+    countMonth = formatNum(month);
+    countDay = formatNum(day);
+    // print([countTotalDay, countYear, countMonth, countDay]);
+  }
+
+  String formatNum(int num) {
+    return num < 10 ? '0$num' : num.toString();
   }
 
   // 每隔2s切换Widget
@@ -50,7 +81,6 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    Daliy daliy = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -63,18 +93,18 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
             child: Column(
               children: <Widget>[
                 Hero(
-                  tag: 'hero${daliy.id}',
+                  tag: 'hero${widget.daliy.id}',
                   child: Container(
                     height: 400,
                     child: Stack(
                       children: <Widget>[
-                        _buildTopBg(context, daliy),
-                        _buildTopContent(context, daliy),
+                        _buildTopBg(context, widget.daliy),
+                        _buildTopContent(context, widget.daliy),
                       ],
                     ),
                   ),
                 ),
-                _buildBottomContent(daliy),
+                _buildBottomContent(widget.daliy),
               ],
             ),
           ),
@@ -148,19 +178,19 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text(daliy.countYear, style: AppTextStyles.countTitleStyle),
+                      Text(countYear, style: AppTextStyles.countTitleStyle),
                       Text('年', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      Text(daliy.countMonth, style: AppTextStyles.countTitleStyle),
+                      Text(countMonth, style: AppTextStyles.countTitleStyle),
                       Text('月', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
                   Column(
                     children: <Widget>[
-                      Text(daliy.countDay, style: AppTextStyles.countTitleStyle),
+                      Text(countDay, style: AppTextStyles.countTitleStyle),
                       Text('日', style: AppTextStyles.countBottomTipStyle),
                     ],
                   ),
@@ -183,7 +213,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(daliy.countTotalDay, style: AppTextStyles.countTitleStyle),
+            Text(countTotalDay, style: AppTextStyles.countTitleStyle),
             SizedBox(width: 2),
             Text('天', style: AppTextStyles.countBottomTipStyle),
             Icon(Iconfont.up2, color: Colors.white, size: 14),

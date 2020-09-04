@@ -1,14 +1,10 @@
 class Daliy {
-  String id;
+  int id;
   String title;
   String headText;
   String targetDay;
   String imageUrl;
   String remark;
-  String countYear;
-  String countMonth;
-  String countDay;
-  String countTotalDay;
 
   Daliy({
     this.id,
@@ -17,9 +13,5 @@ class Daliy {
     this.targetDay,
     this.imageUrl,
     this.remark,
-    this.countYear,
-    this.countMonth,
-    this.countDay,
-    this.countTotalDay,
   });
 }
