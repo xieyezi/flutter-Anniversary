@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily/data/img_data.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
@@ -23,8 +24,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       countMonth: '06',
       countDay: '23',
       countTotalDay: '574',
-      imageUrl:
-          'https://images.unsplash.com/photo-1535507005612-9b796a99f4f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80',
+      imageUrl: ImgData.daily_love,
       remark: """每刻的相遇都是最美的时刻
 你是我生命中最善良的音符，我的生活因为你而精彩，愿美好的乐章谱满我们以后的每一个清晨与黄昏。""",
     ),
@@ -37,21 +37,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       countMonth: '06',
       countDay: '23',
       countTotalDay: '400',
-      imageUrl:
-          'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+      imageUrl: ImgData.daily_work,
       remark: """职场中，最重要的一件事：努力；最重要的两个字：我能；最重要的三宝：自信、诚实、微笑；最重要的四句话：你好、请问、谢谢、没问题。愿你第一天上班顺利，工作开心！""",
     ),
     Daliy(
       id: '3',
-      title: '他的生日',
+      title: '她的生日',
       headText: '爱你每一天',
       targetDay: '2020-09-21',
       countYear: '01',
       countMonth: '06',
       countDay: '23',
       countTotalDay: '146',
-      imageUrl:
-          'https://images.unsplash.com/photo-1514845505178-849cebf1a91d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+      imageUrl: ImgData.daily_birthday,
       remark: """一定不要忘记准备惊喜和礼物哦""",
     ),
     Daliy(
@@ -63,8 +61,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       countMonth: '06',
       countDay: '23',
       countTotalDay: '9990',
-      imageUrl:
-          'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+      imageUrl: ImgData.daily_other,
       remark: """革命尚未成功，加油奋斗！！""",
     ),
   ];

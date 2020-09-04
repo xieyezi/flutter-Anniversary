@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
+import 'package:daily/data/img_data.dart';
 import 'package:daily/model/categroy.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
@@ -24,23 +25,31 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   final List<CateGory> _imgList = [
     CateGory(
       name: '恋爱',
-      imgUrl:
-          'https://images.unsplash.com/photo-1535507005612-9b796a99f4f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80',
+      imgUrl: ImgData.daily_love,
+    ),
+    CateGory(
+      name: '家人',
+      imgUrl: ImgData.daily_family,
+    ),
+    CateGory(
+      name: '朋友',
+      imgUrl: ImgData.daily_friend,
     ),
     CateGory(
       name: '工作',
-      imgUrl:
-          'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-    ),
-    CateGory(
-      name: '生活',
-      imgUrl:
-          'https://images.unsplash.com/photo-1514845505178-849cebf1a91d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+      imgUrl: ImgData.daily_work,
     ),
     CateGory(
       name: '学习',
-      imgUrl:
-          'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+      imgUrl: ImgData.daily_study,
+    ),
+    CateGory(
+      name: '其他',
+      imgUrl: ImgData.daily_other,
+    ),
+    CateGory(
+      name: '生日',
+      imgUrl: ImgData.daily_birthday,
     ),
   ];
 
