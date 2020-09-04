@@ -10,8 +10,8 @@ class SqlLiteHelper {
     String path = "${await getDatabasesPath()}/$sqlFileName";
     print(path);
     if (db == null) {
-      db = await openDatabase(path, version: 1, onCreate: (db, ver) {
-        db.execute('''
+      db = await openDatabase(path, version: 1, onCreate: (db, ver) async {
+        await db.execute('''
         Create Table daily_cache(
           id integer primary key,
           title text,
