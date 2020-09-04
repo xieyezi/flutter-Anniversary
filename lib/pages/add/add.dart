@@ -6,6 +6,7 @@ import 'package:daily/styles/text_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddNew extends StatefulWidget {
@@ -16,7 +17,6 @@ class AddNew extends StatefulWidget {
 class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   int imgCurrentIndex;
   DateTime targetDay;
-  GlobalKey _formKey = GlobalKey<FormState>();
   DateFormat formatter = DateFormat('yyyy-MM-dd');
   TextEditingController _titleController = TextEditingController();
   TextEditingController _headTextController = TextEditingController();
@@ -117,45 +117,41 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
               ),
               Positioned.fill(
                 top: MediaQuery.of(context).size.height * 0.25 + 20,
-                child: Form(
-                  key: _formKey, //设置globalKey，用于后面获取FormState
-                  autovalidate: false,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _buildSelcetItem(
-                        label: '类别',
-                        value: _imgList[imgCurrentIndex].name,
-                        onTap: () => _cateGorySelect(context),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    _buildSelcetItem(
+                      label: '类别',
+                      value: _imgList[imgCurrentIndex].name,
+                      onTap: () => _cateGorySelect(context),
+                    ),
+                    _buildSelcetItem(
+                      label: '日期',
+                      value: formatter.format(targetDay),
+                      onTap: () => _seletDate(context, targetDay),
+                    ),
+                    _buildItemInput(
+                      label: '标题',
+                      placeHolder: '为纪念日写个标题吧~',
+                      controller: _titleController,
+                    ),
+                    _buildItemInput(
+                      label: '描述',
+                      placeHolder: '我还没想好要写什么...',
+                      controller: _headTextController,
+                    ),
+                    _buildContentTextFiled(
+                      controller: _contentController,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 30),
+                      child: BottomButton(
+                        text: '保存',
+                        height: 60,
+                        handleOk: () => _addAction(context),
                       ),
-                      _buildSelcetItem(
-                        label: '日期',
-                        value: formatter.format(targetDay),
-                        onTap: () => _seletDate(context, targetDay),
-                      ),
-                      _buildItemInput(
-                        label: '标题',
-                        placeHolder: '为纪念日写个标题吧~',
-                        controller: _titleController,
-                      ),
-                      _buildItemInput(
-                        label: '描述',
-                        placeHolder: '我还没想好要写什么...',
-                        controller: _headTextController,
-                      ),
-                      _buildContentTextFiled(
-                        controller: _contentController,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 30),
-                        child: BottomButton(
-                          text: '保存',
-                          height: 60,
-                          handleOk: () => {},
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -209,24 +205,25 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
           Text(label, style: AppTextStyles.inputLabelStyle),
           SizedBox(width: 20),
           Expanded(
-            child: TextFormField(
-                controller: controller,
-                keyboardType: TextInputType.text,
-                style: AppTextStyles.inputValueStyle,
-                decoration: InputDecoration(
-                  hintText: placeHolder,
-                  hintStyle: AppTextStyles.inputHintStyle,
-                  border: OutlineInputBorder(borderSide: BorderSide.none),
-                  suffixIcon: GestureDetector(
-                    onTap: () => _clearInput(controller),
-                    child: controller.text != '' ? Icon(Icons.cancel, size: 18, color: Colors.black) : SizedBox(),
-                  ),
+            child: TextField(
+              controller: controller,
+              keyboardType: TextInputType.text,
+              style: AppTextStyles.inputValueStyle,
+              decoration: InputDecoration(
+                hintText: placeHolder,
+                hintStyle: AppTextStyles.inputHintStyle,
+                border: OutlineInputBorder(borderSide: BorderSide.none),
+                suffixIcon: GestureDetector(
+                  onTap: () => _clearInput(controller),
+                  child: controller.text != '' ? Icon(Icons.cancel, size: 18, color: Colors.black) : SizedBox(),
                 ),
-                cursorColor: AppColors.homeBackGorundColor,
-                // 校验用户名
-                validator: (v) {
-                  return v.trim().length > 0 ? null : errorTipText;
-                }),
+              ),
+              cursorColor: AppColors.homeBackGorundColor,
+              // // 标题
+              // validator: (v) {
+              //   return validateFunc(v);
+              // }
+            ),
           ),
         ],
       ),
@@ -406,5 +403,15 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
             );
           });
         });
+  }
+
+  /// addAction
+  void _addAction(BuildContext context) async {
+    if (_titleController.text.length == 0) {
+      showToast('标题名是必须填写的哦～');
+      return;
+    } else {
+      //TODO: insert to sqlite
+    }
   }
 }
