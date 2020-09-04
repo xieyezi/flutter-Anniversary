@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqlLiteHelper {
@@ -19,11 +18,7 @@ class SqlLiteHelper {
           headText text,
           targetDay text,
           imageUrl text,
-          remark text,
-          countYear text,
-          countMonth text,
-          countDay text,
-          countTotalDay text,
+          remark text
         );
         ''');
       });
