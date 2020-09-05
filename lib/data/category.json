@@ -1,0 +1,30 @@
+[
+  {
+    "name": "恋爱",
+    "imgUrl": "https://cdn.xieyezi.com/daily_love.jpg"
+  },
+  {
+    "name": "家人",
+    "imgUrl": "https://cdn.xieyezi.com/daily_family.jpg"
+  },
+  {
+    "name": "朋友",
+    "imgUrl": "https://cdn.xieyezi.com/daily_friend.jpg"
+  },
+  {
+    "name": "工作",
+    "imgUrl": "https://cdn.xieyezi.com/daily_work.jpg"
+  },
+  {
+    "name": "学习",
+    "imgUrl": "https://cdn.xieyezi.com/daily_study.jpg"
+  },
+  {
+    "name": "其他",
+    "imgUrl": "https://cdn.xieyezi.com/daily_other.jpg"
+  },
+  {
+    "name": "生日",
+    "imgUrl": "https://cdn.xieyezi.com/daily_birthday.jpg"
+  }
+]

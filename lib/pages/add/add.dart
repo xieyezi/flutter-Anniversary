@@ -1,16 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
-import 'package:daily/data/img_data.dart';
 import 'package:daily/model/categroy.dart';
+import 'package:daily/pages/add/add_provider.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+class AddNewPage extends StatelessWidget {
+  const AddNewPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AddProvider(),
+      child: Scaffold(
+        body: AddNew(),
+      ),
+    );
+  }
+}
+
 class AddNew extends StatefulWidget {
+  AddNew({Key key}) : super(key: key);
   @override
   _AddNewState createState() => _AddNewState();
 }
@@ -22,36 +38,6 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _headTextController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
-  final List<CateGory> _imgList = [
-    CateGory(
-      name: '恋爱',
-      imgUrl: ImgData.daily_love,
-    ),
-    CateGory(
-      name: '家人',
-      imgUrl: ImgData.daily_family,
-    ),
-    CateGory(
-      name: '朋友',
-      imgUrl: ImgData.daily_friend,
-    ),
-    CateGory(
-      name: '工作',
-      imgUrl: ImgData.daily_work,
-    ),
-    CateGory(
-      name: '学习',
-      imgUrl: ImgData.daily_study,
-    ),
-    CateGory(
-      name: '其他',
-      imgUrl: ImgData.daily_other,
-    ),
-    CateGory(
-      name: '生日',
-      imgUrl: ImgData.daily_birthday,
-    ),
-  ];
 
   @override
   void initState() {
@@ -79,95 +65,99 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
+    final categoryList = Provider.of<AddProvider>(context).categoryList;
+    final loading = Provider.of<AddProvider>(context).loading;
+
+    return SingleChildScrollView(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () async {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          color: AppColors.homeBackGorundColor,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                  color: AppColors.addBackGorundColor,
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 400,
-                        width: MediaQuery.of(context).size.width,
-                        child: CachedNetworkImage(
-                          color: Colors.black.withOpacity(0.5),
-                          imageUrl: _imgList[imgCurrentIndex].imgUrl,
-                          placeholder: (context, url) => Text('loading...'),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                          fit: BoxFit.cover,
-                          colorBlendMode: BlendMode.colorBurn,
-                          filterQuality: FilterQuality.high,
-                        ),
-                      ),
-                      Center(
-                        child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
-                      )
-                    ],
-                  )),
-              Positioned(
-                top: MediaQuery.of(context).padding.top,
-                left: 15,
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(Icons.arrow_back, color: Colors.white),
-                ),
-              ),
-              Positioned.fill(
-                top: MediaQuery.of(context).size.height * 0.25 + 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+        child: loading
+            ? SizedBox()
+            : Container(
+                height: MediaQuery.of(context).size.height,
+                color: AppColors.homeBackGorundColor,
+                child: Stack(
                   children: <Widget>[
-                    _buildSelcetItem(
-                      label: '类别',
-                      value: _imgList[imgCurrentIndex].name,
-                      onTap: () => _cateGorySelect(context),
-                    ),
-                    _buildSelcetItem(
-                      label: '日期',
-                      value: formatter.format(targetDay),
-                      onTap: () => _seletDate(context, targetDay),
-                    ),
-                    _buildItemInput(
-                      label: '标题',
-                      placeHolder: '为纪念日写个标题吧~',
-                      controller: _titleController,
-                    ),
-                    _buildItemInput(
-                      label: '描述',
-                      placeHolder: '我还没想好要写什么...',
-                      controller: _headTextController,
-                    ),
-                    _buildContentTextFiled(
-                      controller: _contentController,
-                    ),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 30),
-                      child: BottomButton(
-                        text: '保存',
-                        height: 60,
-                        handleOk: () => _addAction(context),
+                        color: AppColors.addBackGorundColor,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(bottom: 20),
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              height: 400,
+                              width: MediaQuery.of(context).size.width,
+                              child: CachedNetworkImage(
+                                color: Colors.black.withOpacity(0.5),
+                                imageUrl: categoryList[imgCurrentIndex].imgUrl,
+                                // placeholder: (context, url) => Text('loading...'),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                fit: BoxFit.cover,
+                                colorBlendMode: BlendMode.colorBurn,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                            Center(
+                              child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
+                            )
+                          ],
+                        )),
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top,
+                      left: 15,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.arrow_back, color: Colors.white),
                       ),
                     ),
+                    Positioned.fill(
+                      top: MediaQuery.of(context).size.height * 0.25 + 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _buildSelcetItem(
+                            label: '类别',
+                            value: categoryList[imgCurrentIndex].name,
+                            onTap: () => _cateGorySelect(context, categoryList),
+                          ),
+                          _buildSelcetItem(
+                            label: '日期',
+                            value: formatter.format(targetDay),
+                            onTap: () => _seletDate(context, targetDay),
+                          ),
+                          _buildItemInput(
+                            label: '标题',
+                            placeHolder: '为纪念日写个标题吧~',
+                            controller: _titleController,
+                          ),
+                          _buildItemInput(
+                            label: '描述',
+                            placeHolder: '我还没想好要写什么...',
+                            controller: _headTextController,
+                          ),
+                          _buildContentTextFiled(
+                            controller: _contentController,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 30),
+                            child: BottomButton(
+                              text: '保存',
+                              height: 60,
+                              handleOk: () => _addAction(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
       ),
-    ));
+    );
   }
 
   /// _buildSelcetItem
@@ -311,7 +301,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   }
 
   /// cateGory Select
-  void _cateGorySelect(BuildContext context) {
+  void _cateGorySelect(BuildContext context, List<CategoryModel> categoryList) {
     var _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 200),
@@ -364,7 +354,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(6),
                                       child: CachedNetworkImage(
-                                        imageUrl: _imgList[index].imgUrl,
+                                        imageUrl: categoryList[index].imgUrl,
                                         fit: BoxFit.cover,
                                         filterQuality: FilterQuality.high,
                                         colorBlendMode: BlendMode.colorBurn,
@@ -375,7 +365,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                                     Center(
                                       child: Container(
                                         margin: EdgeInsets.only(top: 30),
-                                        child: Text(_imgList[imgCurrentIndex].name,
+                                        child: Text(categoryList[imgCurrentIndex].name,
                                             style: AppTextStyles.cateGoryTextStyle),
                                       ),
                                     ),
@@ -384,7 +374,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                               ),
                             );
                           },
-                          itemCount: _imgList.length,
+                          itemCount: categoryList.length,
                           viewportFraction: 0.6,
                           scale: 0.6,
                           onIndexChanged: (index) {

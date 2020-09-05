@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:daily/data/img_data.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
@@ -20,7 +19,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       title: '我们在一起',
       headText: '第一次的相遇是最美的时刻',
       targetDay: '2019-01-31',
-      imageUrl: ImgData.daily_love,
+      imageUrl: 'https://cdn.xieyezi.com/daily_love.jpg',
       remark: """每刻的相遇都是最美的时刻
 你是我生命中最善良的音符，我的生活因为你而精彩，愿美好的乐章谱满我们以后的每一个清晨与黄昏。""",
     ),
@@ -29,7 +28,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       title: '第一次工作',
       headText: '努力赚钱钱哦',
       targetDay: '2019-07-10',
-      imageUrl: ImgData.daily_work,
+      imageUrl: 'https://cdn.xieyezi.com/daily_work.jpg',
       remark: """职场中，最重要的一件事：努力；最重要的两个字：我能；最重要的三宝：自信、诚实、微笑；最重要的四句话：你好、请问、谢谢、没问题。愿你第一天上班顺利，工作开心！""",
     ),
     Daliy(
@@ -37,7 +36,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       title: '她的生日',
       headText: '爱你每一天',
       targetDay: '2020-08-21',
-      imageUrl: ImgData.daily_birthday,
+      imageUrl: 'https://cdn.xieyezi.com/daily_birthday.jpg',
       remark: """一定不要忘记准备惊喜和礼物哦""",
     ),
     Daliy(
@@ -45,7 +44,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       title: '第一次买房',
       headText: '努力奋斗',
       targetDay: '2021-09-01',
-      imageUrl: ImgData.daily_other,
+      imageUrl: 'https://cdn.xieyezi.com/daily_other.jpg',
       remark: """革命尚未成功，加油奋斗！！""",
     ),
   ];
@@ -62,7 +61,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return AddNew();
+                  return AddNewPage();
                 },
                 fullscreenDialog: true,
                 settings: RouteSettings(arguments: ''),
