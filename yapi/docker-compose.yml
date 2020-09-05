@@ -31,7 +31,7 @@ services:
       - mongo-yapi
     environment:
       - TZ=Asia/Shanghai
-      - YAPI_ADMIN_ACCOUNT=xieyezi
+      - YAPI_ADMIN_ACCOUNT=1435398529@qq.com
       - YAPI_ADMIN_PASSWORD=${PASSWORD}
       - YAPI_CLOSE_REGISTER=true
       - YAPI_DB_SERVERNAME=mongo-yapi
