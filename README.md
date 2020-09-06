@@ -27,7 +27,6 @@
 | dio                           | 网络请求     |
 | oktoast                       | 提示 toast   |
 | sqflite                       | 数据持久化   |
-| provider                      | 状态管理     |
 | flutter_swiper                | 轮播图       |
 | easy_localization             | 国际化       |
 | cached_network_image          | 缓存网络图片 |
