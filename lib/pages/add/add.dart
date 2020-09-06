@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
+import 'package:daily/components/file_image.dart';
+import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/styles/colors.dart';
@@ -8,6 +11,7 @@ import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -26,6 +30,18 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _headTextController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
+
+  File _image = File('');
+  PickedFile pickedFile;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(pickedFile.path);
+      print(pickedFile.path);
+    });
+  }
 
   @override
   void initState() {
@@ -75,15 +91,9 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                         Container(
                           height: 400,
                           width: MediaQuery.of(context).size.width,
-                          child: CachedNetworkImage(
-                            color: Colors.black.withOpacity(0.5),
-                            imageUrl: widget.categoryList[imgCurrentIndex].imgUrl,
-                            // placeholder: (context, url) => Text('loading...'),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                            fit: BoxFit.cover,
-                            colorBlendMode: BlendMode.colorBurn,
-                            filterQuality: FilterQuality.high,
-                          ),
+                          child: _image.existsSync()
+                              ? FileImageFormPath(imgPath: pickedFile.path)
+                              : PlaceHolderImage(imgUrl: widget.categoryList[5].imgUrl),
                         ),
                         Center(
                           child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
@@ -106,7 +116,8 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                       _buildSelcetItem(
                         label: '类别',
                         value: widget.categoryList[imgCurrentIndex].name,
-                        onTap: () => _cateGorySelect(context, widget.categoryList),
+                        // onTap: () => _cateGorySelect(context, widget.categoryList),
+                        onTap: () => getImage(),
                       ),
                       _buildSelcetItem(
                         label: '日期',
@@ -401,7 +412,8 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
       final Daliy daliy = Daliy(
         title: _titleController.text,
         targetDay: formatter.format(targetDay),
-        imageUrl: categoryList[imgCurrentIndex].imgUrl,
+        // imageUrl: categoryList[imgCurrentIndex].imgUrl,
+        imageUrl: pickedFile.path == '' ? categoryList[5].imgUrl : pickedFile.path,
         remark: _contentController.text == '' ? remarkNull : _contentController.text,
         headText: _headTextController.text == '' ? headTextNull : _headTextController.text,
       );

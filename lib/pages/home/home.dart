@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily/components/file_image.dart';
+import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/add/add.dart';
@@ -36,18 +39,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _daliyList = [];
     await sqlLiteHelper.open();
     _daliyList = await sqlLiteHelper.queryAll();
-    // 首次加载，初始化一个daliy
-    if (_daliyList.length == 0) {
-      final Daliy daliy = Daliy(
-        id: 0,
-        title: '你的生日',
-        headText: '这是你的第一个纪念日',
-        targetDay: formatter.format(DateTime.now()),
-        imageUrl: 'https://cdn.xieyezi.com/daily_other.jpg',
-        remark: '欢迎来到时光，这是一款功能简洁的纪念日APP，祝福你的每个日子都开开心心！',
-      );
-      _daliyList.add(daliy);
-    }
     setState(() {});
   }
 
@@ -62,10 +53,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // 首次加载，初始化一个daliy
+    if (_daliyList.length == 0 && !loading) {
+      final Daliy daliy = Daliy(
+        id: 0,
+        title: '你的生日',
+        headText: '这是你的第一个纪念日',
+        targetDay: formatter.format(DateTime.now()),
+        imageUrl: categoryList[5].imgUrl,
+        remark: '欢迎来到时光，这是一款功能简洁的纪念日APP，祝福你的每个日子都开开心心！',
+      );
+      _daliyList.add(daliy);
+      setState(() {});
+    }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        floatingActionButton: _buildFoaltButton(context),
+        floatingActionButton: loading ? SizedBox() : _buildFoaltButton(context),
         body: loading
             ? Center(child: SpinKitPumpingHeart(color: Colors.black))
             : Container(
@@ -174,7 +178,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return HeroDetailPage(daliy: daliy);
+              return HeroDetailPage(
+                daliy: daliy,
+                categoryList: categoryList,
+              );
             },
             fullscreenDialog: true,
             // settings: RouteSettings(arguments: daliy),
@@ -193,15 +200,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 Positioned.fill(
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: daliy.imageUrl,
-                      filterQuality: FilterQuality.high,
-                      color: Colors.black.withOpacity(0.2),
-                      colorBlendMode: BlendMode.colorBurn,
-                      // placeholder: (context, url) => Text('loading...'),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
+                    child: File(daliy.imageUrl).existsSync()
+                        ? FileImageFormPath(imgPath: daliy.imageUrl)
+                        : PlaceHolderImage(imgUrl: categoryList[5].imgUrl),
                   ),
                 ),
                 Padding(

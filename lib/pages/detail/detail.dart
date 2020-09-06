@@ -1,6 +1,8 @@
 import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+import 'package:daily/components/file_image.dart';
+import 'package:daily/components/placeholder_image.dart';
+import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
@@ -9,7 +11,8 @@ import 'package:flutter/material.dart';
 
 class HeroDetailPage extends StatefulWidget {
   final Daliy daliy;
-  const HeroDetailPage({Key key, this.daliy}) : super(key: key);
+  final List<CategoryModel> categoryList;
+  const HeroDetailPage({Key key, this.daliy, this.categoryList}) : super(key: key);
   @override
   _HeroDetailPageState createState() => _HeroDetailPageState();
 }
@@ -121,15 +124,9 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
     return Container(
       height: 400,
       width: MediaQuery.of(context).size.width,
-      child: CachedNetworkImage(
-        color: Colors.black.withOpacity(0.5),
-        imageUrl: daliy.imageUrl,
-        placeholder: (context, url) => Text('loading...'),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-        fit: BoxFit.cover,
-        colorBlendMode: BlendMode.colorBurn,
-        filterQuality: FilterQuality.high,
-      ),
+      child: File(daliy.imageUrl).existsSync()
+          ? FileImageFormPath(imgPath: daliy.imageUrl)
+          : PlaceHolderImage(imgUrl: widget.categoryList[5].imgUrl),
     );
   }
 
