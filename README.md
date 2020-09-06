@@ -13,11 +13,8 @@
 
 ## 预览
 
-- gif
+<img src="./screenshot/daily.gif" width="300px" />
 
-<img src="./screenshot/daily.gif" width="200px" />
-
-- 截图
 
 | ![](./screenshot/Screenshot_1.png) | ![](./screenshot/Screenshot_2.png) | ![](./screenshot/Screenshot_3.png) |
 | :--------------------------------: | :--------------------------------: | :--------------------------------: |
