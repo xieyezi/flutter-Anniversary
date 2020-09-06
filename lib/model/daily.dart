@@ -20,10 +20,10 @@ class Daliy {
     return {
       'id': id,
       'title': title,
-      'age': headText,
+      'headText': headText,
       'targetDay': targetDay,
-      'imageUrl': targetDay,
-      'remark': targetDay,
+      'imageUrl': imageUrl,
+      'remark': remark,
     };
   }
 }

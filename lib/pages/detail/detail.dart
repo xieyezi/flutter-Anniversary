@@ -22,6 +22,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
   String countMonth = '';
   String countDay = '';
   String countTotalDay = '';
+  bool _todayIsLateTarget = true;
 
   @override
   void initState() {
@@ -39,7 +40,8 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
     final today = new DateTime.now();
     final targetDay = DateTime.parse(widget.daliy.targetDay);
     final difference = today.difference(targetDay);
-    total = difference.inDays;
+    _todayIsLateTarget = difference.inDays > 0 ? true : false;
+    total = (difference.inDays).abs();
     year = total ~/ 365;
     month = (total - year * 365) ~/ 30;
     day = total - year * 365 - month * 30;
@@ -47,6 +49,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
     countYear = formatNum(year);
     countMonth = formatNum(month);
     countDay = formatNum(day);
+    setState(() {});
     // print([countTotalDay, countYear, countMonth, countDay]);
   }
 
@@ -216,7 +219,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
             Text(countTotalDay, style: AppTextStyles.countTitleStyle),
             SizedBox(width: 2),
             Text('天', style: AppTextStyles.countBottomTipStyle),
-            Icon(Iconfont.up2, color: Colors.white, size: 14),
+            Icon(_todayIsLateTarget ? Iconfont.up2 : Iconfont.down1, color: Colors.white, size: 14),
           ],
         ),
       ),

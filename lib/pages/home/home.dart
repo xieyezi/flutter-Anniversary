@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
+import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
+import 'package:daily/utils/sqlite_help.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,76 +18,90 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  final List<Daliy> _daliyList = [
-    Daliy(
-      id: 1,
-      title: '我们在一起',
-      headText: '第一次的相遇是最美的时刻',
-      targetDay: '2019-01-31',
-      imageUrl: 'https://cdn.xieyezi.com/daily_love.jpg',
-      remark: """每刻的相遇都是最美的时刻
-你是我生命中最善良的音符，我的生活因为你而精彩，愿美好的乐章谱满我们以后的每一个清晨与黄昏。""",
-    ),
-    Daliy(
-      id: 2,
-      title: '第一次工作',
-      headText: '努力赚钱钱哦',
-      targetDay: '2019-07-10',
-      imageUrl: 'https://cdn.xieyezi.com/daily_work.jpg',
-      remark: """职场中，最重要的一件事：努力；最重要的两个字：我能；最重要的三宝：自信、诚实、微笑；最重要的四句话：你好、请问、谢谢、没问题。愿你第一天上班顺利，工作开心！""",
-    ),
-    Daliy(
-      id: 3,
-      title: '她的生日',
-      headText: '爱你每一天',
-      targetDay: '2020-08-21',
-      imageUrl: 'https://cdn.xieyezi.com/daily_birthday.jpg',
-      remark: """一定不要忘记准备惊喜和礼物哦""",
-    ),
-    Daliy(
-      id: 4,
-      title: '第一次买房',
-      headText: '努力奋斗',
-      targetDay: '2021-09-01',
-      imageUrl: 'https://cdn.xieyezi.com/daily_other.jpg',
-      remark: """革命尚未成功，加油奋斗！！""",
-    ),
-  ];
+  bool loading = false;
+  List<Daliy> _daliyList = [];
+  List<CategoryModel> categoryList;
+  final sqlLiteHelper = SqlLiteHelper();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+  @override
+  void initState() {
+    loadAllformSqlite();
+    loadCategroyList();
+    super.initState();
+  }
+
+  // loadAll from sqflite
+  Future<void> loadAllformSqlite() async {
+    _daliyList = [];
+    await sqlLiteHelper.open();
+    _daliyList = await sqlLiteHelper.queryAll();
+    // 首次加载，初始化一个daliy
+    if (_daliyList.length == 0) {
+      final Daliy daliy = Daliy(
+        id: 0,
+        title: '你的生日',
+        headText: '这是你的第一个纪念日',
+        targetDay: formatter.format(DateTime.now()),
+        imageUrl: 'https://cdn.xieyezi.com/daily_other.jpg',
+        remark: '欢迎来到时光，这是一款功能简洁的纪念日APP，祝福你的每个日子都开开心心！',
+      );
+      _daliyList.add(daliy);
+    }
+    setState(() {});
+  }
+
+  // load category from netWork
+  Future<void> loadCategroyList() async {
+    loading = true;
+    List<CategoryModel> res = await API.getData();
+    categoryList = res;
+    loading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.buttonPrimary,
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return AddNewPage();
-                },
-                fullscreenDialog: true,
-                settings: RouteSettings(arguments: ''),
+        floatingActionButton: _buildFoaltButton(context),
+        body: loading
+            ? Center(child: SpinKitPumpingHeart(color: Colors.black))
+            : Container(
+                color: AppColors.homeBackGorundColor,
+                height: MediaQuery.of(context).size.height,
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        buildTop(),
+                        createListView(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            );
-          },
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: AppColors.homeBackGorundColor,
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                buildTop(),
-                createListView(),
-              ],
-            ),
-          ),
-        ),
       ),
+    );
+  }
+
+  /// FloatingActionButton
+  Widget _buildFoaltButton(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.add, size: 24),
+      backgroundColor: AppColors.buttonPrimary,
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return AddNew(categoryList: categoryList);
+          }),
+        ).then((value) {
+          if (value) loadAllformSqlite();
+        });
+      },
     );
   }
 
@@ -180,7 +199,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       filterQuality: FilterQuality.high,
                       color: Colors.black.withOpacity(0.2),
                       colorBlendMode: BlendMode.colorBurn,
-                      placeholder: (context, url) => Text('loading...'),
+                      // placeholder: (context, url) => Text('loading...'),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
@@ -205,4 +224,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
