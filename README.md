@@ -5,7 +5,7 @@
 你有没有发现，至今还没有一款界面优美、功能好用的纪念日 APP?   
 还在各大 APP 商城找纪念日 APP 心力交瘁？不如来试一试这款 APP 吧！ 
 
-下载链接请点击[时光 apk](https://github.com/xieyezi/flutter-Anniversary/blob/master/apk/daliy.apk?raw=trueg)
+下载apk文件请点击[时光 apk](https://github.com/xieyezi/flutter-Anniversary/blob/master/apk/daliy.apk?raw=trueg)
 
 
 
