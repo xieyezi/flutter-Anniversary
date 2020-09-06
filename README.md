@@ -13,7 +13,7 @@
 
 ## 预览
 
-<img src="./screenshot/daily.gif" width="310px" />
+<img src="./screenshot/daily.gif" width="350px" />
 
 
 | ![](./screenshot/Screenshot_1.png) | ![](./screenshot/Screenshot_2.png) | ![](./screenshot/Screenshot_3.png) |
