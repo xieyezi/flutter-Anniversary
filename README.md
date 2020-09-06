@@ -35,7 +35,7 @@
 
 ## 部署
 
-> docker compose 配置文件来自[猫哥](https://github.com/ducafecat/docker-yapi.git)提供，在此特此鸣谢
+> docker compose 配置文件来自 [猫哥](https://github.com/ducafecat/docker-yapi.git) 提供，在此特此鸣谢
 
 这个项目的接口采用了 mock 接口，来自[Yapi](https://github.com/YMFE/yapi),采用 docker 部署：
 
