@@ -4,6 +4,7 @@ import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
+import 'package:daily/pages/edit/edit.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
@@ -139,7 +140,33 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(daliy.headText, style: AppTextStyles.headTextStyle),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(daliy.headText, style: AppTextStyles.headTextStyle),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return EditPage(daliy: daliy);
+                      }),
+                    ).then((value) {
+                      setState(() {
+                        daliy = value;
+                      });
+                    });
+                  },
+                  child: Container(
+                    width: 80,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text('编辑', style: AppTextStyles.headTextStyle),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Text(daliy.title, style: AppTextStyles.titleTextStyle),
             Expanded(
               child: AnimatedSwitcher(
@@ -149,12 +176,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
                     : _buildMiddleCountDay(daliy, senceWidth: MediaQuery.of(context).size.width),
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(daliy.targetDay, style: AppTextStyles.targetDayStyle),
-              ],
-            )
+            Text(daliy.targetDay, style: AppTextStyles.targetDayStyle)
           ],
         ),
       ),

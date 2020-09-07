@@ -41,6 +41,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _daliyList = [];
     await sqlLiteHelper.open();
     _daliyList = await sqlLiteHelper.queryAll();
+    _daliyList.forEach((element) => print(element.id));
     setState(() {});
   }
 
@@ -201,18 +202,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         _animationController.reverse();
       },
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return HeroDetailPage(
-                daliy: daliy,
-                categoryList: categoryList,
-              );
-            },
-            fullscreenDialog: true,
-            // settings: RouteSettings(arguments: daliy),
-          ),
-        );
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return HeroDetailPage(
+              daliy: daliy,
+              categoryList: categoryList,
+            );
+          },
+          fullscreenDialog: true,
+        ));
       },
       child: Container(
         height: 200,

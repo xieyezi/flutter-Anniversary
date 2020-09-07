@@ -50,6 +50,26 @@ class SqlLiteHelper {
     });
   }
 
+  // queryAll
+  Future<Daliy> queryItem(int id) async {
+    final List<Map<String, dynamic>> maps = await db.query(
+      dailyTable,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    final result = List.generate(maps.length, (i) {
+      return Daliy(
+        id: maps[i]['id'],
+        title: maps[i]['title'],
+        headText: maps[i]['headText'],
+        targetDay: maps[i]['targetDay'],
+        imageUrl: maps[i]['imageUrl'],
+        remark: maps[i]['remark'],
+      );
+    });
+    return result[0];
+  }
+
   // update
   Future<void> update(Daliy daliy) async {
     await db.update(
