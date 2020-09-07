@@ -9,14 +9,13 @@ import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
-import 'package:daily/utils/custom_floatbutton_location.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:unicorndial/unicorndial.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -29,7 +28,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<CategoryModel> categoryList;
   final sqlLiteHelper = SqlLiteHelper();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
-  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   void initState() {
@@ -77,8 +75,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         floatingActionButton: loading ? SizedBox() : _buildFoaltButton(context),
-        floatingActionButtonLocation:
-            CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, -15, -30),
         body: loading
             ? Center(child: SpinKitPumpingHeart(color: Colors.black))
             : Container(
@@ -103,41 +99,52 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   /// FloatingActionButton
   Widget _buildFoaltButton(BuildContext context) {
-    return FabCircularMenu(
-      key: fabKey,
-      fabSize: 50,
-      ringWidth: 80,
-      fabColor: Colors.black,
-      ringColor: Colors.black54,
-      ringDiameter: MediaQuery.of(context).size.width * 0.6,
-      fabOpenIcon: Icon(Icons.menu, color: Colors.white),
-      fabCloseIcon: Icon(Icons.close, color: Colors.white),
-      children: <Widget>[
-        IconButton(
-            icon: Icon(Icons.info_outline, color: Colors.white, size: 26),
-            onPressed: () {
-              fabKey.currentState.close();
-              showToast('努力更新中...');
-            }),
-        IconButton(
-            icon: Icon(Iconfont.wish, color: Colors.white, size: 32),
-            onPressed: () {
-              fabKey.currentState.close();
-              showToast('努力更新中...');
-            }),
-        IconButton(
-            icon: Icon(Icons.add, color: Colors.white, size: 32),
-            onPressed: () {
-              fabKey.currentState.close();
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return AddNew(categoryList: categoryList);
-                }),
-              ).then((value) {
-                if (value) loadAllformSqlite();
-              });
-            }),
-      ],
+    final childButtons = List<UnicornButton>();
+    childButtons.add(UnicornButton(
+        hasLabel: false,
+        currentButton: FloatingActionButton(
+          mini: true,
+          heroTag: 'add',
+          backgroundColor: Colors.black54,
+          child: Icon(Icons.add, size: 30),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return AddNew(categoryList: categoryList);
+              }),
+            ).then((value) {
+              if (value) loadAllformSqlite();
+            });
+          },
+        )));
+    childButtons.add(UnicornButton(
+        hasLabel: false,
+        currentButton: FloatingActionButton(
+          mini: true,
+          heroTag: 'wish',
+          backgroundColor: Colors.black54,
+          child: Icon(Iconfont.wish, size: 30),
+          onPressed: () {
+            showToast('努力更新中...');
+          },
+        )));
+    childButtons.add(UnicornButton(
+        hasLabel: false,
+        currentButton: FloatingActionButton(
+          mini: true,
+          heroTag: 'info',
+          backgroundColor: AppColors.homeBackGorundColor,
+          child: Icon(Icons.info_outline, size: 26),
+          onPressed: () {
+            showToast('努力更新中...');
+          },
+        )));
+    return UnicornDialer(
+      backgroundColor: Colors.black54.withOpacity(0.3),
+      parentButtonBackground: Colors.black,
+      orientation: UnicornOrientation.VERTICAL,
+      parentButton: Icon(Icons.menu),
+      childButtons: childButtons,
     );
   }
 

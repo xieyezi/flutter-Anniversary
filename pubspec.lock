@@ -92,13 +92,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.3"
-  fab_circular_menu:
-    dependency: "direct main"
-    description:
-      name: fab_circular_menu
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   file:
     dependency: transitive
     description:
@@ -453,6 +446,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
+  unicorndial:
+    dependency: "direct main"
+    description:
+      name: unicorndial
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.5"
   url_launcher:
     dependency: transitive
     description:
