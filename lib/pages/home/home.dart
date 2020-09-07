@@ -57,7 +57,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     if (_daliyList.length == 0 && !loading) {
       final Daliy daliy = Daliy(
         id: 0,
-        title: '你的生日',
+        title: '欢迎来到时光',
         headText: '这是你的第一个纪念日',
         targetDay: formatter.format(DateTime.now()),
         imageUrl: categoryList[5].imgUrl,
@@ -189,7 +189,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         );
       },
       child: Container(
-        height: 400,
+        height: 200,
         margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: ScaleTransition(
           scale: _animation,

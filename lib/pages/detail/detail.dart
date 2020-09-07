@@ -167,33 +167,37 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
       key: ValueKey('year'),
       child: Container(
         width: (senceWidth - 36) * 0.6,
-        padding: EdgeInsets.only(bottom: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        height: 80,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              height: 80,
+              child: Stack(
+                alignment: Alignment.center,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text(countYear, style: AppTextStyles.countTitleStyle),
-                      Text('年', style: AppTextStyles.countBottomTipStyle),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text(countMonth, style: AppTextStyles.countTitleStyle),
-                      Text('月', style: AppTextStyles.countBottomTipStyle),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text(countDay, style: AppTextStyles.countTitleStyle),
-                      Text('日', style: AppTextStyles.countBottomTipStyle),
-                    ],
-                  ),
+                  Text(countYear, style: AppTextStyles.countTitleStyle),
+                  Positioned(top: 50, child: Text('年', style: AppTextStyles.countBottomTipStyle)),
+                ],
+              ),
+            ),
+            Container(
+              height: 80,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Text(countMonth, style: AppTextStyles.countTitleStyle),
+                  Positioned(top: 50, child: Text('月', style: AppTextStyles.countBottomTipStyle)),
+                ],
+              ),
+            ),
+            Container(
+              height: 80,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Text(countDay, style: AppTextStyles.countTitleStyle),
+                  Positioned(top: 50, child: Text('日', style: AppTextStyles.countBottomTipStyle)),
                 ],
               ),
             ),
@@ -209,7 +213,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
       key: ValueKey('day'),
       child: Container(
         width: (senceWidth - 36) * 0.6,
-        padding: EdgeInsets.only(bottom: 20),
+        height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
