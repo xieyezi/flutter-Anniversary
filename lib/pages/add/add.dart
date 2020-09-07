@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
 import 'package:daily/components/file_image.dart';
-import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/styles/colors.dart';
@@ -23,22 +22,21 @@ class AddNew extends StatefulWidget {
 }
 
 class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
+  final picker = ImagePicker();
   final sqlLiteHelper = SqlLiteHelper();
   DateTime targetDay;
   int imgCurrentIndex;
+  File _imageBg = File('');
+  PickedFile pickedFile;
   DateFormat formatter = DateFormat('yyyy-MM-dd');
   TextEditingController _titleController = TextEditingController();
   TextEditingController _headTextController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
 
-  File _image = File('');
-  PickedFile pickedFile;
-  final picker = ImagePicker();
-
   Future getImage() async {
     pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
-      _image = File(pickedFile.path);
+      _imageBg = File(pickedFile.path);
       print(pickedFile.path);
     });
   }
@@ -88,15 +86,21 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                     margin: EdgeInsets.only(bottom: 20),
                     child: Stack(
                       children: <Widget>[
-                        Container(
-                          height: 400,
-                          width: MediaQuery.of(context).size.width,
-                          child: _image.existsSync()
-                              ? FileImageFormPath(imgPath: pickedFile.path)
-                              : PlaceHolderImage(imgUrl: widget.categoryList[5].imgUrl),
+                        GestureDetector(
+                          onTap: () => getImage(),
+                          behavior: HitTestBehavior.translucent,
+                          child: Container(
+                            height: 400,
+                            width: MediaQuery.of(context).size.width,
+                            child: _imageBg.existsSync()
+                                ? FileImageFormPath(imgPath: pickedFile.path)
+                                : _buildNotChooseImage(),
+                          ),
                         ),
                         Center(
-                          child: Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle),
+                          child: _imageBg.existsSync()
+                              ? Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle)
+                              : SizedBox(),
                         )
                       ],
                     )),
@@ -104,8 +108,9 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                   top: MediaQuery.of(context).padding.top,
                   left: 15,
                   child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () => Navigator.pop(context, false),
-                    child: Icon(Icons.arrow_back, color: Colors.white),
+                    child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.white)),
                   ),
                 ),
                 Positioned.fill(
@@ -113,12 +118,6 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      _buildSelcetItem(
-                        label: '类别',
-                        value: widget.categoryList[imgCurrentIndex].name,
-                        // onTap: () => _cateGorySelect(context, widget.categoryList),
-                        onTap: () => getImage(),
-                      ),
                       _buildSelcetItem(
                         label: '日期',
                         value: formatter.format(targetDay),
@@ -152,6 +151,31 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  /// not choose Image
+  Widget _buildNotChooseImage() {
+    return Container(
+      color: Colors.black45.withOpacity(0.3),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Container(
+              height: 50,
+              width: 50,
+              child: Icon(Icons.add, size: 24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
+          ),
+          SizedBox(height: 5),
+          Text('选择一张背景图片', style: AppTextStyles.headTextStyle),
+        ],
       ),
     );
   }
@@ -296,7 +320,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
     Navigator.pop(context);
   }
 
-  /// cateGory Select
+  /// cateGory Select (version 0.1)
   void _cateGorySelect(BuildContext context, List<CategoryModel> categoryList) {
     var _animationController = AnimationController(
       vsync: this,
@@ -405,22 +429,24 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
     if (_titleController.text.length == 0) {
       showToast('标题名是必须填写的哦～');
       return;
-    } else {
-      //insert to sqlite
-      final headTextNull = '生如夏花之灿烂';
-      final remarkNull = '只要面对着阳光努力向上，日子就会变得单纯而美好。';
-      final Daliy daliy = Daliy(
-        title: _titleController.text,
-        targetDay: formatter.format(targetDay),
-        // imageUrl: categoryList[imgCurrentIndex].imgUrl,
-        imageUrl: pickedFile.path == '' ? categoryList[5].imgUrl : pickedFile.path,
-        remark: _contentController.text == '' ? remarkNull : _contentController.text,
-        headText: _headTextController.text == '' ? headTextNull : _headTextController.text,
-      );
-      await sqlLiteHelper.open();
-      await sqlLiteHelper.insert(daliy);
-      showToast('添加成功');
-      Navigator.pop(context, true);
     }
+    if (pickedFile == null) {
+      showToast('必须选择一张背景图片哦～');
+      return;
+    }
+    //insert to sqlite
+    final headTextNull = '生如夏花之灿烂';
+    final remarkNull = '只要面对着阳光努力向上，日子就会变得单纯而美好。';
+    final Daliy daliy = Daliy(
+      title: _titleController.text,
+      targetDay: formatter.format(targetDay),
+      imageUrl: pickedFile.path,
+      remark: _contentController.text == '' ? remarkNull : _contentController.text,
+      headText: _headTextController.text == '' ? headTextNull : _headTextController.text,
+    );
+    await sqlLiteHelper.open();
+    await sqlLiteHelper.insert(daliy);
+    showToast('添加成功');
+    Navigator.pop(context, true);
   }
 }

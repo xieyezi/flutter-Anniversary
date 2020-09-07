@@ -49,4 +49,11 @@ class Iconfont {
     fontFamily: 'Iconfont',
     matchTextDirection: true,
   );
+
+  // iconName: wish
+  static const wish = IconData(
+    0xe656,
+    fontFamily: 'Iconfont',
+    matchTextDirection: true,
+  );
 }

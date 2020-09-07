@@ -27,7 +27,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="playstore-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="AQE-Ns-poc">
-                                <rect key="frame" x="97" y="366" width="220" height="94"/>
+                                <rect key="frame" x="79" y="393" width="220" height="94"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>

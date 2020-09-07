@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/categroy.dart';
@@ -8,12 +7,14 @@ import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
 import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
+import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:oktoast/oktoast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -61,7 +62,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         headText: '这是你的第一个纪念日',
         targetDay: formatter.format(DateTime.now()),
         imageUrl: categoryList[5].imgUrl,
-        remark: '欢迎来到时光，这是一款功能简洁的纪念日APP，祝福你的每个日子都开开心心！',
+        remark: '''欢迎来到时光!
+这是一款功能简洁的纪念日APP，你可以首页右下角的按钮，新增一个纪念日，赶紧体验起来吧～，
+祝福你的每个日子都开开心心！
+        ''',
       );
       _daliyList.add(daliy);
       setState(() {});
@@ -113,31 +117,54 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget buildTop() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 15),
-                  child: Text('Daily', style: AppTextStyles.appTitle),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Forever', style: AppTextStyles.appTitle),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        showToast('努力更新中，请期待～');
+                      },
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        child: Icon(Iconfont.wish, size: 40),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      child: PopupMenuButton<String>(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        itemBuilder: (context) {
+                          return <PopupMenuEntry<String>>[
+                            PopupMenuItem<String>(
+                              value: 'about',
+                              child: Text('关于', style: AppTextStyles.inputValueStyle),
+                            ),
+                            PopupMenuItem<String>(
+                              value: 'heart',
+                              child: Text('飞往心愿的银河', style: AppTextStyles.inputValueStyle),
+                            ),
+                          ];
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
-              ],
-            ),
+              )
+            ],
           ),
-          ClipOval(
-            child: CachedNetworkImage(
-              height: 50,
-              width: 50,
-              fit: BoxFit.cover,
-              // placeholder: (context, url) => Text('loading...'),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              imageUrl:
-                  'https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-            ),
-          )
+          SizedBox(height: 18),
+          Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
         ],
       ),
     );
