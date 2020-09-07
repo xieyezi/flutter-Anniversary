@@ -9,8 +9,10 @@ import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
+import 'package:daily/utils/custom_floatbutton_location.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,6 +29,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   List<CategoryModel> categoryList;
   final sqlLiteHelper = SqlLiteHelper();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
   @override
   void initState() {
@@ -74,6 +77,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         floatingActionButton: loading ? SizedBox() : _buildFoaltButton(context),
+        floatingActionButtonLocation:
+            CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, -15, -30),
         body: loading
             ? Center(child: SpinKitPumpingHeart(color: Colors.black))
             : Container(
@@ -98,18 +103,41 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   /// FloatingActionButton
   Widget _buildFoaltButton(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add, size: 24),
-      backgroundColor: AppColors.buttonPrimary,
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) {
-            return AddNew(categoryList: categoryList);
-          }),
-        ).then((value) {
-          if (value) loadAllformSqlite();
-        });
-      },
+    return FabCircularMenu(
+      key: fabKey,
+      fabSize: 50,
+      ringWidth: 80,
+      fabColor: Colors.black,
+      ringColor: Colors.black54,
+      ringDiameter: MediaQuery.of(context).size.width * 0.6,
+      fabOpenIcon: Icon(Icons.menu, color: Colors.white),
+      fabCloseIcon: Icon(Icons.close, color: Colors.white),
+      children: <Widget>[
+        IconButton(
+            icon: Icon(Icons.info_outline, color: Colors.white, size: 26),
+            onPressed: () {
+              fabKey.currentState.close();
+              showToast('努力更新中...');
+            }),
+        IconButton(
+            icon: Icon(Iconfont.wish, color: Colors.white, size: 32),
+            onPressed: () {
+              fabKey.currentState.close();
+              showToast('努力更新中...');
+            }),
+        IconButton(
+            icon: Icon(Icons.add, color: Colors.white, size: 32),
+            onPressed: () {
+              fabKey.currentState.close();
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return AddNew(categoryList: categoryList);
+                }),
+              ).then((value) {
+                if (value) loadAllformSqlite();
+              });
+            }),
+      ],
     );
   }
 
@@ -124,47 +152,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text('Forever', style: AppTextStyles.appTitle),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        showToast('努力更新中，请期待～');
-                      },
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        child: Icon(Iconfont.wish, size: 40),
-                      ),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      child: PopupMenuButton<String>(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        itemBuilder: (context) {
-                          return <PopupMenuEntry<String>>[
-                            PopupMenuItem<String>(
-                              value: 'about',
-                              child: Text('关于', style: AppTextStyles.inputValueStyle),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'heart',
-                              child: Text('飞往心愿的银河', style: AppTextStyles.inputValueStyle),
-                            ),
-                          ];
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
             ],
           ),
-          SizedBox(height: 18),
-          Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
+          // SizedBox(height: 18),
+          // Text('每一个平凡的日子，都值得纪念', style: AppTextStyles.appTip),
         ],
       ),
     );

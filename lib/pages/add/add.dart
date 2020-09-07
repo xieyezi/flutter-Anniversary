@@ -174,7 +174,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(height: 5),
-          Text('选择一张背景图片', style: AppTextStyles.headTextStyle),
+          Text('选择一张背景图片', style: AppTextStyles.chooseImageStyle),
         ],
       ),
     );

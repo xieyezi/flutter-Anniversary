@@ -13,9 +13,10 @@ class AppTextStyles {
 
   /// APP Welcome
   static const TextStyle appTip = TextStyle(
-    fontSize: 12,
+    fontSize: 14,
     decoration: TextDecoration.none,
     color: Colors.black54,
+    fontWeight: FontWeight.w100,
     fontFamily: 'Dongqing',
   );
 
@@ -109,5 +110,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     fontSize: 12,
     color: Colors.black,
+  );
+
+  /// Daily chooseImage
+  static const TextStyle chooseImageStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.white,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w200,
+    fontFamily: 'Dongqing',
   );
 }
