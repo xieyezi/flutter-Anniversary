@@ -9,8 +9,8 @@
 下载apk文件请点击[时光 apk](https://github.com/xieyezi/flutter-Anniversary/blob/master/apk/daliy.apk?raw=trueg)
 
 ## 后期计划
-- 修复添加页bug
-- 修复图片缓存bug ( 可能采用更换图片源的方式)
+-  ~~修复添加页bug~~ (采用选择本地背景图片的方式)
+- ~~修复图片缓存bug ( 可能采用更换图片源的方式)~~ (采用选择本地背景图片的方式)
 - 完成删除功能
 - 完成编辑功能
 - 收集建议
