@@ -3,6 +3,7 @@ import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/img.dart';
 import 'package:daily/model/daily.dart';
+import 'package:daily/pages/about.dart/about.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
 import 'package:daily/services/add_sevice.dart';
@@ -169,7 +170,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           backgroundColor: AppColors.homeBackGorundColor,
           child: Icon(Icons.info_outline, size: 28),
           onPressed: () {
-            showToast('努力更新中...');
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 300),
+                  pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      alignment: Alignment.bottomRight,
+                      child: About(),
+                    );
+                  }),
+            );
           },
         )));
 

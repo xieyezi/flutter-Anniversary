@@ -129,4 +129,22 @@ class AppTextStyles {
     fontWeight: FontWeight.w100,
     fontFamily: 'Dongqing',
   );
+
+  /// Daily about
+  static const TextStyle aboutStyle = TextStyle(
+    color: Color(0xFF333333),
+    fontSize: 14,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
+
+  /// Daily about
+  static const TextStyle aboutMiddleStyle = TextStyle(
+    color: Color(0xFF333333),
+    fontSize: 16,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
 }

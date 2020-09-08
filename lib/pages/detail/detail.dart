@@ -7,7 +7,6 @@ import 'package:daily/pages/edit/edit.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
-import 'package:daily/utils/random_img.dart';
 import 'package:flutter/material.dart';
 
 class HeroDetailPage extends StatefulWidget {
