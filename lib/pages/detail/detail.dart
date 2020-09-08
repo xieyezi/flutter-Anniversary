@@ -147,15 +147,31 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
                 GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return EditPage(daliy: daliy);
-                      }),
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 300),
+                          pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                            return ScaleTransition(
+                              scale: animation,
+                              alignment: Alignment.topRight,
+                              child: EditPage(daliy: daliy),
+                            );
+                          }),
                     ).then((value) {
                       setState(() {
                         daliy = value;
                       });
                     });
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(builder: (context) {
+                    //     return EditPage(daliy: daliy);
+                    //   }),
+                    // ).then((value) {
+                    //   setState(() {
+                    //     daliy = value;
+                    //   });
+                    // });
                   },
                   child: Container(
                     width: 80,

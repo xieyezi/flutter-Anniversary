@@ -56,4 +56,11 @@ class Iconfont {
     fontFamily: 'Iconfont',
     matchTextDirection: true,
   );
+
+  // iconName: comfirm
+  static const comfirm = IconData(
+    0xe647,
+    fontFamily: 'Iconfont',
+    matchTextDirection: true,
+  );
 }

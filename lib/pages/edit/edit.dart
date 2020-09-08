@@ -1,16 +1,17 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
+import 'package:daily/components/custom_dialog.dart';
 import 'package:daily/components/file_image.dart';
-import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/detail/detail.dart';
+import 'package:daily/pages/home/home.dart';
 import 'package:daily/styles/colors.dart';
+import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
+import 'package:daily/utils/event_bus.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -85,36 +86,49 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
             child: Stack(
               children: <Widget>[
                 Container(
-                    color: AppColors.addBackGorundColor,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Stack(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () => getImage(),
-                          behavior: HitTestBehavior.translucent,
-                          child: Container(
-                            height: 400,
-                            width: MediaQuery.of(context).size.width,
-                            child: _imageBg.existsSync()
-                                ? FileImageFormPath(imgPath: _imageBg.path)
-                                : _buildNotChooseImage(),
-                          ),
-                        ),
-                        Center(
+                  color: AppColors.addBackGorundColor,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Stack(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () => getImage(),
+                        behavior: HitTestBehavior.translucent,
+                        child: Container(
+                          height: 400,
+                          width: MediaQuery.of(context).size.width,
                           child: _imageBg.existsSync()
-                              ? Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle)
-                              : SizedBox(),
-                        )
-                      ],
-                    )),
+                              ? FileImageFormPath(imgPath: _imageBg.path)
+                              : _buildNotChooseImage(),
+                        ),
+                      ),
+                      Center(
+                        child:
+                            _imageBg.existsSync() ? Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle) : SizedBox(),
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).padding.top,
+                  right: 15,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => _deleteDialog(context),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      child: Center(child: Text('删除', style: AppTextStyles.headTextStyle)),
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: MediaQuery.of(context).padding.top,
                   left: 15,
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () => Navigator.pop(context, false),
+                    onTap: () => Navigator.pop(context),
                     child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.white)),
                   ),
                 ),
@@ -349,7 +363,62 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
     await sqlLiteHelper.open();
     await sqlLiteHelper.update(newDaliy);
     showToast('修改成功');
-    // TODO: 修改之后要通知更新
-    Navigator.pop(context, newDaliy);
+    bus.emit('editSuccess', newDaliy);
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) {
+      return HeroDetailPage(daliy: newDaliy);
+    }), (Route route) {
+      if (route.settings?.name == '/') {
+        return true; //停止关闭
+      }
+      return false; //继续关闭
+    });
+  }
+
+  void _deleteDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return CustomDialog(
+            content: Center(
+              child: Column(
+                children: <Widget>[
+                  Icon(Iconfont.comfirm, size: 36),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 0.0, top: 20),
+                    child: Text(
+                      '确定删除该纪念日吗？',
+                      style: AppTextStyles.deleteStyle,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            confirmContent: '确定',
+            cancelContent: '取消',
+            isCancel: true,
+            confirmCallback: () {
+              print('object');
+              _deleteAction();
+            },
+            dismissCallback: () {
+              return;
+            },
+          );
+        });
+  }
+
+  void _deleteAction() async {
+    await sqlLiteHelper.open();
+    await sqlLiteHelper.delete(widget.daliy);
+    showToast('删除成功');
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) {
+      return Home();
+    }), (Route route) {
+      if (route.settings?.name == '/') {
+        return true; //停止关闭
+      }
+      return false; //继续关闭
+    });
   }
 }

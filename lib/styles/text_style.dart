@@ -120,4 +120,13 @@ class AppTextStyles {
     fontWeight: FontWeight.w200,
     fontFamily: 'Dongqing',
   );
+
+  /// Daily delete
+  static const TextStyle deleteStyle = TextStyle(
+    color: Color(0xFF333333),
+    fontSize: 16,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
 }

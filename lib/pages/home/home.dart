@@ -9,6 +9,7 @@ import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
+import 'package:daily/utils/event_bus.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     loadAllformSqlite();
     loadCategroyList();
+    bus.on('editSuccess', (arg) {
+      loadAllformSqlite();
+    });
     super.initState();
   }
 
@@ -106,16 +110,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         currentButton: FloatingActionButton(
           mini: true,
           heroTag: 'add',
-          backgroundColor: Colors.black54,
-          child: Icon(Icons.add, size: 30),
+          backgroundColor: AppColors.homeBackGorundColor,
+          child: Icon(Icons.add_circle_outline, size: 30),
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) {
-                return AddNew(categoryList: categoryList);
-              }),
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 300),
+                  pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      alignment: Alignment.bottomRight,
+                      child: AddNew(categoryList: categoryList),
+                    );
+                  }),
             ).then((value) {
               if (value) loadAllformSqlite();
             });
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(builder: (context) {
+            //     return AddNew(categoryList: categoryList);
+            //   }),
+            // ).then((value) {
+            //   if (value) loadAllformSqlite();
+            // });
           },
         )));
     childButtons.add(UnicornButton(
@@ -123,8 +141,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         currentButton: FloatingActionButton(
           mini: true,
           heroTag: 'wish',
-          backgroundColor: Colors.black54,
-          child: Icon(Iconfont.wish, size: 30),
+          backgroundColor: AppColors.homeBackGorundColor,
+          child: Icon(Iconfont.wish, size: 36),
+          onPressed: () {
+            showToast('努力更新中...');
+          },
+        )));
+    childButtons.add(UnicornButton(
+        hasLabel: false,
+        currentButton: FloatingActionButton(
+          mini: true,
+          heroTag: 'share',
+          backgroundColor: AppColors.homeBackGorundColor,
+          child: Icon(Iconfont.share, size: 26),
           onPressed: () {
             showToast('努力更新中...');
           },
@@ -135,11 +164,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           mini: true,
           heroTag: 'info',
           backgroundColor: AppColors.homeBackGorundColor,
-          child: Icon(Icons.info_outline, size: 26),
+          child: Icon(Icons.info_outline, size: 28),
           onPressed: () {
             showToast('努力更新中...');
           },
         )));
+
     return UnicornDialer(
       backgroundColor: Colors.black54.withOpacity(0.3),
       parentButtonBackground: Colors.black,
