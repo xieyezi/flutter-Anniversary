@@ -2,18 +2,18 @@ import 'dart:async';
 import 'dart:io';
 import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
-import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/edit/edit.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
+import 'package:daily/utils/random_img.dart';
 import 'package:flutter/material.dart';
 
 class HeroDetailPage extends StatefulWidget {
   final Daliy daliy;
-  final List<CategoryModel> categoryList;
-  const HeroDetailPage({Key key, this.daliy, this.categoryList}) : super(key: key);
+  final String imgPlaceHolder;
+  const HeroDetailPage({Key key, this.daliy, this.imgPlaceHolder}) : super(key: key);
   @override
   _HeroDetailPageState createState() => _HeroDetailPageState();
 }
@@ -32,6 +32,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
   void initState() {
     caclTimeDistance();
     startCountdownTimer();
+
     super.initState();
   }
 
@@ -127,7 +128,7 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
       width: MediaQuery.of(context).size.width,
       child: File(daliy.imageUrl).existsSync()
           ? FileImageFormPath(imgPath: daliy.imageUrl)
-          : PlaceHolderImage(imgUrl: widget.categoryList[5].imgUrl),
+          : PlaceHolderImage(imgUrl: widget.imgPlaceHolder),
     );
   }
 

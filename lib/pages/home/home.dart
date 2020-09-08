@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
-import 'package:daily/model/categroy.dart';
+import 'package:daily/model/img.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
@@ -10,6 +10,7 @@ import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:daily/utils/event_bus.dart';
+import 'package:daily/utils/random_img.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   bool loading = false;
+  String imgPlaceHolder = '';
+  List<ImageModel> _imgList;
   List<Daliy> _daliyList = [];
-  List<CategoryModel> categoryList;
   final sqlLiteHelper = SqlLiteHelper();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
@@ -52,8 +54,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   // load category from netWork
   Future<void> loadCategroyList() async {
     loading = true;
-    List<CategoryModel> res = await API.getData();
-    categoryList = res;
+    List<ImageModel> res = await API.getData();
+    _imgList = res;
+    imgPlaceHolder = RandomImg.randomImg(_imgList);
     loading = false;
     setState(() {});
   }
@@ -67,9 +70,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         title: '欢迎来到时光',
         headText: '这是你的第一个纪念日',
         targetDay: formatter.format(DateTime.now()),
-        imageUrl: categoryList[5].imgUrl,
+        imageUrl: imgPlaceHolder,
         remark: '''欢迎来到时光!
-这是一款功能简洁的纪念日APP，你可以首页右下角的按钮，新增一个纪念日，赶紧体验起来吧～，
+这是一款功能简洁的纪念日APP，你可以首页右下角的按钮，新增一个纪念日，赶紧体验起来吧～
 祝福你的每个日子都开开心心！
         ''',
       );
@@ -121,7 +124,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     return ScaleTransition(
                       scale: animation,
                       alignment: Alignment.bottomRight,
-                      child: AddNew(categoryList: categoryList),
+                      child: AddNew(),
                     );
                   }),
             ).then((value) {
@@ -236,7 +239,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           builder: (context) {
             return HeroDetailPage(
               daliy: daliy,
-              categoryList: categoryList,
+              imgPlaceHolder: imgPlaceHolder,
             );
           },
           fullscreenDialog: true,
@@ -256,7 +259,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     child: File(daliy.imageUrl).existsSync()
                         ? FileImageFormPath(imgPath: daliy.imageUrl)
-                        : PlaceHolderImage(imgUrl: categoryList[5].imgUrl),
+                        : PlaceHolderImage(imgUrl: imgPlaceHolder),
                   ),
                 ),
                 Padding(

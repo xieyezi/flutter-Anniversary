@@ -1,22 +1,18 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:daily/components/bottom_button.dart';
 import 'package:daily/components/file_image.dart';
-import 'package:daily/model/categroy.dart';
 import 'package:daily/model/daily.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddNew extends StatefulWidget {
-  final List<CategoryModel> categoryList;
-  AddNew({Key key, this.categoryList}) : super(key: key);
+  AddNew({Key key}) : super(key: key);
   @override
   _AddNewState createState() => _AddNewState();
 }
@@ -141,7 +137,7 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
                         child: BottomButton(
                           text: '保存',
                           height: 60,
-                          handleOk: () => _addAction(context, widget.categoryList),
+                          handleOk: () => _addAction(context),
                         ),
                       ),
                     ],
@@ -320,112 +316,8 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
     Navigator.pop(context);
   }
 
-  /// cateGory Select (version 0.1)
-  void _cateGorySelect(BuildContext context, List<CategoryModel> categoryList) {
-    var _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    );
-    var _animation = Tween<double>(begin: 1, end: 0.98).animate(_animationController);
-    showModalBottomSheet(
-        context: context,
-        elevation: 10,
-        isScrollControlled: true,
-        backgroundColor: AppColors.cateGroySelectBackGorundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        builder: (BuildContext context) {
-          return StatefulBuilder(builder: (_, setModalBottomSheetState) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.65,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: 30,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                        onPanDown: (details) {
-                          _animationController.forward();
-                        },
-                        onPanCancel: () {
-                          _animationController.reverse();
-                        },
-                        child: Swiper(
-                          itemBuilder: (BuildContext context, int index) {
-                            return ScaleTransition(
-                              scale: _animation,
-                              child: Container(
-                                decoration: new BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: Offset(0, -5),
-                                      color: Colors.grey,
-                                      blurRadius: 30,
-                                      spreadRadius: -20,
-                                    )
-                                  ],
-                                ),
-                                child: Stack(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(6),
-                                      child: CachedNetworkImage(
-                                        imageUrl: categoryList[index].imgUrl,
-                                        fit: BoxFit.cover,
-                                        filterQuality: FilterQuality.high,
-                                        colorBlendMode: BlendMode.colorBurn,
-                                        color: Colors.black.withOpacity(0.3),
-                                        errorWidget: (context, url, error) => Icon(Icons.error),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                        margin: EdgeInsets.only(top: 30),
-                                        child: Text(categoryList[imgCurrentIndex].name,
-                                            style: AppTextStyles.cateGoryTextStyle),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                          itemCount: categoryList.length,
-                          viewportFraction: 0.6,
-                          scale: 0.6,
-                          onIndexChanged: (index) {
-                            setModalBottomSheetState(() {
-                              imgCurrentIndex = index;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(20),
-                      child: BottomButton(
-                        text: '确定',
-                        height: 50,
-                        handleOk: () {
-                          setState(() {});
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-        });
-  }
-
   /// addAction
-  void _addAction(BuildContext context, List<CategoryModel> categoryList) async {
+  void _addAction(BuildContext context) async {
     if (_titleController.text.length == 0) {
       showToast('标题名是必须填写的哦～');
       return;
