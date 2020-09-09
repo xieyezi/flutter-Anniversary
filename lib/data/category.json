@@ -19,12 +19,17 @@
     "name": "学习",
     "imgUrl": "https://cdn.xieyezi.com/daily_study.jpg"
   },
-  {
-    "name": "其他",
-    "imgUrl": "https://cdn.xieyezi.com/daily_other.jpg"
-  },
+
   {
     "name": "生日",
     "imgUrl": "https://cdn.xieyezi.com/daily_birthday.jpg"
+  },
+  {
+    "name": "分享背景",
+    "imgUrl": "https://cdn.xieyezi.com/daliy_share_bg.png"
+  },
+  {
+    "name": "二维码",
+    "imgUrl": "https://cdn.xieyezi.com/daliy_qrcode.png"
   }
 ]

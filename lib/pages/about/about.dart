@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:daily/components/webview_page.dart';
+import 'package:daily/model/img.dart';
 import 'package:daily/pages/share/share.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class About extends StatelessWidget {
-  const About({Key key}) : super(key: key);
+  final List<ImageModel> imgList;
+  const About({Key key, this.imgList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +115,7 @@ class About extends StatelessWidget {
                                   return ScaleTransition(
                                     scale: animation,
                                     alignment: Alignment.bottomRight,
-                                    child: ShareContentPost(
-                                        bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
-                                        qrImageUrl: 'https://i.loli.net/2020/09/09/CZceqMO4GBndJmD.png'),
+                                    child: ShareContentPost(bgUrl: imgList[6].imgUrl, qrImageUrl: imgList[7].imgUrl),
                                   );
                                 }),
                           );

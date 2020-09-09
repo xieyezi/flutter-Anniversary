@@ -31,11 +31,12 @@ class _ShareContentPostState extends State<ShareContentPost> {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
     print(pngBytes);
-    var filePath = await ImageGallerySaver.saveImage(pngBytes).catchError((error) {
-      throw error;
-    });
-    print(filePath);
-    showToast('保存成功');
+    final result = await ImageGallerySaver.saveImage(pngBytes);
+    print(result);
+    showToast('成功保存到相册！');
+    if (result) {
+      showToast('成功保存到相册！');
+    }
     // Navigator.pop(context);
   }
 

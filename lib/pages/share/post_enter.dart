@@ -4,6 +4,8 @@ import 'package:daily/pages/share/qr.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 enum Status { loading, complete }
 
 class MainPainter extends CustomPainter {
@@ -53,7 +55,7 @@ class _EnterPostPage extends State<EnterPostPage> with TickerProviderStateMixin 
 
   Widget build(BuildContext context) {
     if (gameStatus == Status.loading) {
-      return SizedBox();
+      return Center(child: SpinKitPumpingHeart(color: Colors.black));
     }
     return CustomPaint(
         painter: MainPainter(

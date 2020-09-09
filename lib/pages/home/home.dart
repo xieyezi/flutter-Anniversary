@@ -18,7 +18,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:unicorndial/unicorndial.dart';
 
 class Home extends StatefulWidget {
@@ -49,7 +48,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _daliyList = [];
     await sqlLiteHelper.open();
     _daliyList = await sqlLiteHelper.queryAll();
-    _daliyList.forEach((element) => print(element.id));
     setState(() {});
   }
 
@@ -162,9 +160,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     return ScaleTransition(
                       scale: animation,
                       alignment: Alignment.bottomRight,
-                      child: ShareContentPost(
-                          bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
-                          qrImageUrl: 'https://i.loli.net/2020/09/09/CZceqMO4GBndJmD.png'),
+                      child: ShareContentPost(bgUrl: _imgList[6].imgUrl, qrImageUrl: _imgList[7].imgUrl),
                     );
                   }),
             );
@@ -186,7 +182,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     return ScaleTransition(
                       scale: animation,
                       alignment: Alignment.bottomRight,
-                      child: About(),
+                      child: About(imgList: _imgList),
                     );
                   }),
             );
