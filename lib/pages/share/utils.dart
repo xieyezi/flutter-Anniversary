@@ -1,6 +1,9 @@
-import 'dart:ui';
+import 'dart:async';
+import 'dart:ui' as ui;
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class Utils {

@@ -46,7 +46,6 @@ class _WebViewPageState extends State<WebViewPage> with AutomaticKeepAliveClient
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Visibility(visible: _isFirstLoad, child: _progressIndicator()),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () => Navigator.pop(context, false),
@@ -61,6 +60,7 @@ class _WebViewPageState extends State<WebViewPage> with AutomaticKeepAliveClient
                 ),
               ),
               Divider(),
+              Visibility(visible: _isFirstLoad, child: _progressIndicator()),
               Expanded(child: _webview()),
             ],
           ),

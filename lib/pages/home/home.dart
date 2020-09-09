@@ -3,7 +3,7 @@ import 'package:daily/components/file_image.dart';
 import 'package:daily/components/placeholder_image.dart';
 import 'package:daily/model/img.dart';
 import 'package:daily/model/daily.dart';
-import 'package:daily/pages/about.dart/about.dart';
+import 'package:daily/pages/about/about.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
 import 'package:daily/services/add_sevice.dart';
@@ -159,7 +159,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           backgroundColor: AppColors.homeBackGorundColor,
           child: Icon(Iconfont.share, size: 26),
           onPressed: () {
-            showToast('努力更新中...');
+            // Navigator.push(
+            //   context,
+            //   PageRouteBuilder(
+            //       transitionDuration: Duration(milliseconds: 300),
+            //       pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+            //         return ScaleTransition(
+            //           scale: animation,
+            //           alignment: Alignment.bottomRight,
+            //           child: ShareContentPost(
+            //               bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
+            //               qrImageUrl:
+            //                   'https://cdn.xieyezi.com/%E6%97%B6%E5%88%BB%E9%9F%B3%E4%B9%90%E4%BA%8C%E7%BB%B4%E7%A0%81.png'),
+            //         );
+            //       }),
+            // );
           },
         )));
     childButtons.add(UnicornButton(

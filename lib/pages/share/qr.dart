@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import './utils.dart';
+import 'dart:ui' as ui;
 
 class MainQR {
   ui.Image image;
@@ -29,9 +30,9 @@ class MainQR {
       ),
     )
       ..pushStyle(
-        ui.TextStyle(color: Colours.text_black_999, textBaseline: ui.TextBaseline.alphabetic),
+        ui.TextStyle(color: Colors.white, textBaseline: ui.TextBaseline.alphabetic),
       )
-      ..addText("长按识别");
+      ..addText('长按识别');
     ui.Paragraph paragraph = paragraphBuilder.build()..layout(ui.ParagraphConstraints(width: 200.0));
 
     canvas.drawParagraph(paragraph, Offset(885.0, 2050.0));

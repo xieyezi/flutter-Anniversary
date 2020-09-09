@@ -2,6 +2,7 @@ import 'package:daily/pages/share/post_avatar.dart';
 import 'package:daily/pages/share/post_bg.dart';
 import 'package:daily/pages/share/qr.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 enum Status { loading, complete }
 
@@ -50,7 +51,7 @@ class _EnterPostPage extends State<EnterPostPage> with TickerProviderStateMixin 
 
   Widget build(BuildContext context) {
     if (gameStatus == Status.loading) {
-      return ColorLoader();
+      return SizedBox();
     }
     return CustomPaint(
         painter: MainPainter(background: background, hero: hero, postAvatar: postAvatar, size: Size(750, 1334)),

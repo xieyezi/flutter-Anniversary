@@ -6,13 +6,14 @@
 你是不是经常浏览各大应用商城寻找好看又好用的 "纪念日 APP" ？  
 不如来试一试这款 APP 吧！   
 
-下载apk文件请点击[时光 apk](https://github.com/xieyezi/flutter-Anniversary/blob/master/apk/daliy.apk?raw=trueg)
+下载apk文件请点击[时光 apk](http://d.firim.vip/daliy?release_id=5f58634423389f18ba5f3d04)
 
 ## 后期计划
 -  ~~修复添加页bug~~ (采用选择本地背景图片的方式)
 - ~~修复图片缓存bug ( 可能采用更换图片源的方式)~~ (采用选择本地背景图片的方式)
 - ~~完成删除功能~~ (已完成)
 - ~~完成编辑功能~~ (已完成)
+- 分享功能
 - 完成关于页面
 - 完成心愿页面
 - 收集建议

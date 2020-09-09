@@ -1,6 +1,8 @@
 // 背景图
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily/pages/share/utils.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
 class Background {
   // 屏幕的宽度
@@ -24,21 +26,16 @@ class Background {
 
   // 绘图函数
   paint(Canvas canvas, Size size) async {
-    Rect screenWrap =
-        Offset(0.0, 0.0) & Size(screenWidth * 0.4, screenHeight * 0.4);
+    Rect screenWrap = Offset(0.0, 0.0) & Size(screenWidth * 0.4, screenHeight * 0.4);
     Paint screenWrapPainter = new Paint();
-    screenWrapPainter.color = Colors.red;
+    screenWrapPainter.color = Colors.white;
     screenWrapPainter.style = PaintingStyle.fill;
     canvas.drawRect(screenWrap, screenWrapPainter);
     canvas.save();
-    canvas.scale(0.4, 0.4);
+    canvas.scale(0.42, 0.4);
     Paint paint = new Paint();
-    canvas.drawImageRect(
-        image,
-        Offset(0.0, 0.0) &
-            Size(image.width.toDouble(), image.height.toDouble()),
-        Offset(0.0, 0.0) & Size(screenWidth, screenHeight),
-        paint);
+    canvas.drawImageRect(image, Offset(0.0, 0.0) & Size(image.width.toDouble(), image.height.toDouble()),
+        Offset(0.0, 0.0) & Size(screenWidth, screenHeight), paint);
     canvas.restore();
   }
 }

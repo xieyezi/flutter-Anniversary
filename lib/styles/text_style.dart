@@ -147,4 +147,22 @@ class AppTextStyles {
     fontWeight: FontWeight.w100,
     fontFamily: 'Dongqing',
   );
+
+  /// Daily about
+  static const TextStyle aboutBottomStyle = TextStyle(
+    color: Color(0xFF333333),
+    fontSize: 12,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'Dongqing',
+  );
+
+  /// Daily share
+  static const TextStyle shareTitleStyle = TextStyle(
+    color: Color(0xFF333333),
+    fontSize: 16,
+    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Dongqing',
+  );
 }
