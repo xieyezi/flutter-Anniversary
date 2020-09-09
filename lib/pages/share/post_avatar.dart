@@ -37,7 +37,7 @@ class PostAvatar {
       )
       ..addText(nickName);
     ui.Paragraph paragraph = paragraphBuilder.build()..layout(ui.ParagraphConstraints(width: 500.0));
-    canvas.drawParagraph(paragraph, Offset(textLeft, 1330.0));
+    canvas.drawParagraph(paragraph, Offset(textLeft, 1230.0));
 
     ui.ParagraphBuilder paragraphBuilder2 = ui.ParagraphBuilder(
       ui.ParagraphStyle(
@@ -52,7 +52,7 @@ class PostAvatar {
       )
       ..addText('邀您一起加入时光旅行');
     ui.Paragraph paragraph2 = paragraphBuilder2.build()..layout(ui.ParagraphConstraints(width: 500.0));
-    canvas.drawParagraph(paragraph2, Offset(textLeft, 1380.0));
+    canvas.drawParagraph(paragraph2, Offset(textLeft, 1280.0));
 
     ui.ParagraphBuilder paragraphBuilder3 = ui.ParagraphBuilder(
       ui.ParagraphStyle(
@@ -67,10 +67,10 @@ class PostAvatar {
       )
       ..addText('阿里云技术支持');
     ui.Paragraph paragraph3 = paragraphBuilder3.build()..layout(ui.ParagraphConstraints(width: 500.0));
-    canvas.drawParagraph(paragraph3, Offset(textLeft, 1430.0));
+    canvas.drawParagraph(paragraph3, Offset(textLeft, 1330.0));
 
     var radius = image.width.toDouble() / 2;
-    var top = 1350.0;
+    var top = 1250.0;
     var left = 30.0;
     canvas.clipRRect(
         RRect.fromRectXY(Rect.fromLTWH(left, top, image.width.toDouble(), image.width.toDouble()), radius, radius),

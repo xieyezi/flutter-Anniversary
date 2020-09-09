@@ -19,7 +19,7 @@ class MainQR {
     canvas.save();
     Paint paint = new Paint();
     canvas.scale(0.25, 0.25);
-    canvas.drawImageRect(image, Offset(0.0, 0.0) & Size(400, 400), Offset(850.0, 1770.0) & Size(400.0, 400.0), paint);
+    canvas.drawImageRect(image, Offset(0.0, 0.0) & Size(400, 400), Offset(850.0, 1640.0) & Size(400.0, 400.0), paint);
 
     ui.ParagraphBuilder paragraphBuilder = ui.ParagraphBuilder(
       ui.ParagraphStyle(
@@ -35,7 +35,7 @@ class MainQR {
       ..addText('长按识别');
     ui.Paragraph paragraph = paragraphBuilder.build()..layout(ui.ParagraphConstraints(width: 200.0));
 
-    canvas.drawParagraph(paragraph, Offset(885.0, 2050.0));
+    canvas.drawParagraph(paragraph, Offset(950.0, 2060.0));
     canvas.restore();
   }
 }

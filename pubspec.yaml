@@ -21,6 +21,7 @@ dependencies:
   webview_flutter: ^0.3.22+1
   easy_localization: ^2.0.2
   cached_network_image: ^2.0.0
+  image_gallery_saver: ^1.5.0
   syncfusion_flutter_datepicker: ^18.2.55-beta
 
 dev_dependencies:

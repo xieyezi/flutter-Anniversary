@@ -6,6 +6,7 @@ import 'package:daily/model/daily.dart';
 import 'package:daily/pages/about/about.dart';
 import 'package:daily/pages/add/add.dart';
 import 'package:daily/pages/detail/detail.dart';
+import 'package:daily/pages/share/share.dart';
 import 'package:daily/services/add_sevice.dart';
 import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
@@ -131,49 +132,42 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ).then((value) {
               if (value) loadAllformSqlite();
             });
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(builder: (context) {
-            //     return AddNew(categoryList: categoryList);
-            //   }),
-            // ).then((value) {
-            //   if (value) loadAllformSqlite();
-            // });
           },
         )));
-    childButtons.add(UnicornButton(
-        hasLabel: false,
-        currentButton: FloatingActionButton(
-          mini: true,
-          heroTag: 'wish',
-          backgroundColor: AppColors.homeBackGorundColor,
-          child: Icon(Iconfont.wish, size: 36),
-          onPressed: () {
-            showToast('努力更新中...');
-          },
-        )));
+    //TODO: 心愿
+    // childButtons.add(UnicornButton(
+    //     hasLabel: false,
+    //     currentButton: FloatingActionButton(
+    //       mini: true,
+    //       heroTag: 'wish',
+    //       backgroundColor: AppColors.homeBackGorundColor,
+    //       child: Icon(Iconfont.wish, size: 36),
+    //       onPressed: () {
+    //         showToast('努力更新中...');
+    //       },
+    //     )));
     childButtons.add(UnicornButton(
         hasLabel: false,
         currentButton: FloatingActionButton(
           mini: true,
           heroTag: 'share',
           backgroundColor: AppColors.homeBackGorundColor,
-          child: Icon(Iconfont.share, size: 26),
+          child: Icon(Iconfont.share, size: 24),
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   PageRouteBuilder(
-            //       transitionDuration: Duration(milliseconds: 300),
-            //       pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
-            //         return ScaleTransition(
-            //           scale: animation,
-            //           alignment: Alignment.bottomRight,
-            //           child: ShareContentPost(
-            //               bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
-            //               qrImageUrl:
-            //                   'https://cdn.xieyezi.com/%E6%97%B6%E5%88%BB%E9%9F%B3%E4%B9%90%E4%BA%8C%E7%BB%B4%E7%A0%81.png'),
-            //         );
-            //       }),
-            // );
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 300),
+                  pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      alignment: Alignment.bottomRight,
+                      child: ShareContentPost(
+                          bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
+                          qrImageUrl: 'https://i.loli.net/2020/09/09/CZceqMO4GBndJmD.png'),
+                    );
+                  }),
+            );
           },
         )));
     childButtons.add(UnicornButton(

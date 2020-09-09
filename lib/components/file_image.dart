@@ -9,10 +9,10 @@ class FileImageFormPath extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.file(
       File(imgPath),
+      color: Colors.black.withOpacity(0.4),
       fit: BoxFit.cover,
-      filterQuality: FilterQuality.high,
-      color: Colors.black.withOpacity(0.5),
-      colorBlendMode: BlendMode.colorBurn,
+      filterQuality: FilterQuality.low,
+      colorBlendMode: BlendMode.multiply,
     );
   }
 }

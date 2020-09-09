@@ -8,13 +8,12 @@ class PlaceHolderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withOpacity(0.4),
       imageUrl: imgUrl,
-      // placeholder: (context, url) => Text('loading...'),
       errorWidget: (context, url, error) => Icon(Icons.error),
       fit: BoxFit.cover,
-      colorBlendMode: BlendMode.colorBurn,
-      filterQuality: FilterQuality.high,
+      filterQuality: FilterQuality.low,
+      colorBlendMode: BlendMode.multiply,
     );
   }
 }

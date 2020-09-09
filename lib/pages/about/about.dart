@@ -104,24 +104,22 @@ class About extends StatelessWidget {
                         title: '分享给好友',
                         imgUrl: 'assets/images/air.png',
                         size: 30,
-                        // action: () {
-                        //   // Navigator.push(
-                        //   //   context,
-                        //   //   PageRouteBuilder(
-                        //   //       transitionDuration: Duration(milliseconds: 300),
-                        //   //       pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
-                        //   //         return ScaleTransition(
-                        //   //           scale: animation,
-                        //   //           alignment: Alignment.bottomRight,
-                        //   //           child: ShareContentPost(
-                        //   //               bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
-                        //   //               qrImageUrl:
-                        //   //                   'https://cdn.xieyezi.com/%E6%97%B6%E5%88%BB%E9%9F%B3%E4%B9%90%E4%BA%8C%E7%BB%B4%E7%A0%81.png'),
-                        //   //         );
-                        //   //       }),
-                        //   // );
-                        // }
-                        ),
+                        action: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                transitionDuration: Duration(milliseconds: 300),
+                                pageBuilder: (BuildContext context, Animation animation, Animation secondaryAnimation) {
+                                  return ScaleTransition(
+                                    scale: animation,
+                                    alignment: Alignment.bottomRight,
+                                    child: ShareContentPost(
+                                        bgUrl: 'https://i.loli.net/2020/09/09/OvqcBszXgnST2re.png',
+                                        qrImageUrl: 'https://i.loli.net/2020/09/09/CZceqMO4GBndJmD.png'),
+                                  );
+                                }),
+                          );
+                        }),
                   ],
                 ),
               ),
