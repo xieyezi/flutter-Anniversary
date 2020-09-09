@@ -124,7 +124,7 @@ class AppTextStyles {
   /// Daily delete
   static const TextStyle deleteStyle = TextStyle(
     color: Color(0xFF333333),
-    fontSize: 16,
+    fontSize: 14,
     decoration: TextDecoration.none,
     fontWeight: FontWeight.w100,
     fontFamily: 'Dongqing',

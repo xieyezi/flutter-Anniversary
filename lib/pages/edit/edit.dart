@@ -345,7 +345,7 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
       showToast('标题名是必须填写的哦～');
       return;
     }
-    if (pickedFile == null) {
+    if (pickedFile == null && widget.daliy.imageUrl == '') {
       showToast('必须选择一张背景图片哦～');
       return;
     }
@@ -356,7 +356,7 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
       id: widget.daliy.id,
       title: _titleController.text,
       targetDay: formatter.format(targetDay),
-      imageUrl: pickedFile.path,
+      imageUrl: pickedFile == null ? widget.daliy.imageUrl : pickedFile.path,
       remark: _contentController.text == '' ? remarkNull : _contentController.text,
       headText: _headTextController.text == '' ? headTextNull : _headTextController.text,
     );
@@ -415,10 +415,7 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) {
       return Home();
     }), (Route route) {
-      if (route.settings?.name == '/') {
-        return true; //停止关闭
-      }
-      return false; //继续关闭
+      return false;
     });
   }
 }
