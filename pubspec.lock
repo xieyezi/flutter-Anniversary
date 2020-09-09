@@ -424,14 +424,14 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "18.2.55"
+    version: "18.2.57"
   syncfusion_flutter_datepicker:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_datepicker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "18.2.55-beta"
+    version: "18.2.57-beta"
   synchronized:
     dependency: transitive
     description:
