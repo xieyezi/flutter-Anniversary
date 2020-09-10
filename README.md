@@ -10,7 +10,7 @@
 
 ## 后期计划
 
-- ~~修复状态栏的颜色显示bug~~
+- ~~修复状态栏的颜色显示bug~~    [#3](https://github.com/xieyezi/flutter-Anniversary/issues/3)
 - ~~分享页面生成的图片在Android 10 上面不能保存的bug~~ (使用permission_handler请求权限)
 - ~~选择日期时，头部显示不正常的bug~~
 -  ~~修复编辑页选择图片时闪退的bug~~ (采用选择本地背景图片的方式)
