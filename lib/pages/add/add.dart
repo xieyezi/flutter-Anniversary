@@ -7,6 +7,7 @@ import 'package:daily/styles/text_style.dart';
 import 'package:daily/utils/sqlite_help.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -31,10 +32,12 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
 
   Future getImage() async {
     pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _imageBg = File(pickedFile.path);
-      print(pickedFile.path);
-    });
+    if (pickedFile != null && pickedFile.path.length > 0) {
+      setState(() {
+        _imageBg = File(pickedFile.path);
+        print(pickedFile.path);
+      });
+    }
   }
 
   @override
@@ -63,87 +66,90 @@ class _AddNewState extends State<AddNew> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () async {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: AppColors.homeBackGorundColor,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                    color: AppColors.addBackGorundColor,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: Stack(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () => getImage(),
-                          behavior: HitTestBehavior.translucent,
-                          child: Container(
-                            height: 400,
-                            width: MediaQuery.of(context).size.width,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () async {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              color: AppColors.homeBackGorundColor,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                      color: AppColors.addBackGorundColor,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Stack(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () => getImage(),
+                            behavior: HitTestBehavior.translucent,
+                            child: Container(
+                              height: 400,
+                              width: MediaQuery.of(context).size.width,
+                              child: _imageBg.existsSync()
+                                  ? FileImageFormPath(imgPath: pickedFile.path)
+                                  : _buildNotChooseImage(),
+                            ),
+                          ),
+                          Center(
                             child: _imageBg.existsSync()
-                                ? FileImageFormPath(imgPath: pickedFile.path)
-                                : _buildNotChooseImage(),
+                                ? Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle)
+                                : SizedBox(),
+                          )
+                        ],
+                      )),
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top,
+                    left: 15,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => Navigator.pop(context, false),
+                      child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.white)),
+                    ),
+                  ),
+                  Positioned.fill(
+                    top: MediaQuery.of(context).size.height * 0.25 + 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        _buildSelcetItem(
+                          label: '日期',
+                          value: formatter.format(targetDay),
+                          onTap: () => _seletDate(context, targetDay),
+                        ),
+                        _buildItemInput(
+                          label: '标题',
+                          placeHolder: '为纪念日写个标题吧~',
+                          controller: _titleController,
+                        ),
+                        _buildItemInput(
+                          label: '描述',
+                          placeHolder: '我还没想好要写什么...',
+                          controller: _headTextController,
+                        ),
+                        _buildContentTextFiled(
+                          controller: _contentController,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 30),
+                          child: BottomButton(
+                            text: '保存',
+                            height: 60,
+                            handleOk: () => _addAction(context),
                           ),
                         ),
-                        Center(
-                          child: _imageBg.existsSync()
-                              ? Text('每个日子都值得纪念', style: AppTextStyles.headTextStyle)
-                              : SizedBox(),
-                        )
                       ],
-                    )),
-                Positioned(
-                  top: MediaQuery.of(context).padding.top,
-                  left: 15,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => Navigator.pop(context, false),
-                    child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.white)),
-                  ),
-                ),
-                Positioned.fill(
-                  top: MediaQuery.of(context).size.height * 0.25 + 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _buildSelcetItem(
-                        label: '日期',
-                        value: formatter.format(targetDay),
-                        onTap: () => _seletDate(context, targetDay),
-                      ),
-                      _buildItemInput(
-                        label: '标题',
-                        placeHolder: '为纪念日写个标题吧~',
-                        controller: _titleController,
-                      ),
-                      _buildItemInput(
-                        label: '描述',
-                        placeHolder: '我还没想好要写什么...',
-                        controller: _headTextController,
-                      ),
-                      _buildContentTextFiled(
-                        controller: _contentController,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 30),
-                        child: BottomButton(
-                          text: '保存',
-                          height: 60,
-                          handleOk: () => _addAction(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

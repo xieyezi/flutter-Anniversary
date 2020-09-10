@@ -8,6 +8,7 @@ import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/iconfont.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HeroDetailPage extends StatefulWidget {
   final Daliy daliy;
@@ -88,31 +89,34 @@ class _HeroDetailPageState extends State<HeroDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          color: AppColors.detailBackGorundColor,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Hero(
-                  tag: 'hero${widget.daliy.id}',
-                  child: Container(
-                    height: 400,
-                    child: Stack(
-                      children: <Widget>[
-                        _buildTopBg(context, widget.daliy),
-                        _buildTopContent(context, widget.daliy),
-                      ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        body: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            color: AppColors.detailBackGorundColor,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Hero(
+                    tag: 'hero${widget.daliy.id}',
+                    child: Container(
+                      height: 400,
+                      child: Stack(
+                        children: <Widget>[
+                          _buildTopBg(context, widget.daliy),
+                          _buildTopContent(context, widget.daliy),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                _buildBottomContent(widget.daliy),
-              ],
+                  _buildBottomContent(widget.daliy),
+                ],
+              ),
             ),
           ),
         ),

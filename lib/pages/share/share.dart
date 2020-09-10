@@ -7,6 +7,7 @@ import 'package:daily/styles/colors.dart';
 import 'package:daily/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:ui' as ui;
 import 'package:oktoast/oktoast.dart';
@@ -45,46 +46,50 @@ class _ShareContentPostState extends State<ShareContentPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.homeBackGorundColor,
-        title: Text('分享', style: AppTextStyles.shareTitleStyle),
-        centerTitle: true,
-        elevation: 0,
-        leading: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => Navigator.pop(context),
-          child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.black)),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          brightness: Brightness.dark,
+          backgroundColor: AppColors.homeBackGorundColor,
+          title: Text('分享', style: AppTextStyles.shareTitleStyle),
+          leading: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => Navigator.pop(context),
+            child: Container(height: 50, width: 50, child: Icon(Icons.arrow_back, color: Colors.black)),
+          ),
         ),
-      ),
-      body: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(30),
-          color: AppColors.homeBackGorundColor,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: RepaintBoundary(
-                  key: globalKey,
-                  child: EnterPostPage(
-                    bgUrl: widget.bgUrl,
-                    qrImageUrl: widget.qrImageUrl,
-                    screenWidth: MediaQuery.of(context).size.width,
-                    screenHeight: MediaQuery.of(context).size.height,
+        body: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(30),
+            color: AppColors.homeBackGorundColor,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: RepaintBoundary(
+                    key: globalKey,
+                    child: EnterPostPage(
+                      bgUrl: widget.bgUrl,
+                      qrImageUrl: widget.qrImageUrl,
+                      screenWidth: MediaQuery.of(context).size.width,
+                      screenHeight: MediaQuery.of(context).size.height,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: BottomButton(
-                  text: '保存',
-                  height: 50,
-                  handleOk: () => _capturePng(),
+                Container(
+                  padding: EdgeInsets.only(top: 20),
+                  child: BottomButton(
+                    text: '保存',
+                    height: 50,
+                    handleOk: () => _capturePng(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

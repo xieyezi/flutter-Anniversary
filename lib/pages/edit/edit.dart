@@ -65,10 +65,13 @@ class _EditPageState extends State<EditPage> with TickerProviderStateMixin {
 
   Future getImage() async {
     pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      _imageBg = File(pickedFile.path);
-      print(pickedFile.path);
-    });
+    //ƒIX: #3
+    if (pickedFile != null && pickedFile.path.length > 0) {
+      setState(() {
+        _imageBg = File(pickedFile.path);
+        print(pickedFile.path);
+      });
+    }
   }
 
   @override
