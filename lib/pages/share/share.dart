@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:ui' as ui;
 import 'package:oktoast/oktoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ShareContentPost extends StatefulWidget {
   String bgUrl;
@@ -31,13 +32,15 @@ class _ShareContentPostState extends State<ShareContentPost> {
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
     print(pngBytes);
-    final result = await ImageGallerySaver.saveImage(pngBytes);
-    print(result);
-    showToast('成功保存到相册！');
-    if (result) {
-      showToast('成功保存到相册！');
+    var status = await Permission.storage.request();
+    if (status == PermissionStatus.granted) {
+      var result = await ImageGallerySaver.saveImage(pngBytes);
+      print(result);
+      if (result == true || result != '') {
+        showToast('成功保存到相册！');
+        // Navigator.pop(context);
+      }
     }
-    // Navigator.pop(context);
   }
 
   @override
