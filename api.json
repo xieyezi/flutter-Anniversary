@@ -1,0 +1,43 @@
+[
+  {
+    "index": 0,
+    "name": "公共分类",
+    "desc": "公共分类",
+    "add_time": 1599293044,
+    "up_time": 1599293044,
+    "list": [
+      {
+        "query_path": {
+          "path": "/category_list",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 12,
+        "method": "GET",
+        "catid": 7,
+        "title": "纪念日类别",
+        "path": "/category_list",
+        "project_id": 9,
+        "req_params": [],
+        "res_body_type": "raw",
+        "uid": 13,
+        "add_time": 1599293083,
+        "up_time": 1599639902,
+        "req_query": [],
+        "req_headers": [],
+        "req_body_form": [],
+        "__v": 0,
+        "desc": "",
+        "markdown": "",
+        "res_body": "[\n  {\n    \"name\": \"恋爱\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_love.jpg\"\n  },\n  {\n    \"name\": \"家人\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_family.jpg\"\n  },\n  {\n    \"name\": \"朋友\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_friend.jpg\"\n  },\n  {\n    \"name\": \"工作\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_work.jpg\"\n  },\n  {\n    \"name\": \"学习\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_study.jpg\"\n  },\n\n  {\n    \"name\": \"生日\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daily_birthday.jpg\"\n  },\n  {\n    \"name\": \"分享背景\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daliy_share_bg.png\"\n  },\n  {\n    \"name\": \"二维码\",\n    \"imgUrl\": \"https://cdn.xieyezi.com/daliy_qrcode.png\"\n  }\n]\n"
+      }
+    ]
+  }
+]
